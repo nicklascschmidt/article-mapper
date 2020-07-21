@@ -1,0 +1,20 @@
+{
+  "name": "article-mapper",
+  "version": "1.0.0",
+  "description": "Scans articles with location data and displays a map of those locations.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nicklascschmidt/article-mapper.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nicklascschmidt/article-mapper/issues"
+  },
+  "homepage": "https://github.com/nicklascschmidt/article-mapper#readme"
+}
