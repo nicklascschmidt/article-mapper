@@ -8,10 +8,18 @@ import formElementsData from './Form.data';
 import LabelInputPair from '../../../common/LabelInputPair/LabelInputPair.jsx';
 
 const StyledForm = styled.form`
+  max-width: min-content;
   padding: 1rem;
+  margin: auto;
+  border: 1px solid black;
+  border-radius: .5rem;
+
   input, select {
     display: block;
     margin-bottom: 1rem;
+  }
+  input:last-child {
+    margin-left: auto;
   }
 `;
 
