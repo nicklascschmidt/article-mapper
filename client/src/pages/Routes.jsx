@@ -9,7 +9,7 @@ const Container = styled.div`
 `;
 
 const Header = styled.header`
-  min-height: 10vh;
+  min-height: 6vh;
   padding: 1rem 2rem;
   display: flex;
   align-items: center;
@@ -22,7 +22,9 @@ class Routes extends Component {
   render() {
     return (
       <Container>
-        <Header>Article Mapper</Header>
+        <Header>
+          <h1>Article Mapper</h1>
+        </Header>
         <Switch>
           <Route path='/new-tab'>
             <div>this is the new tab you just opened</div>
