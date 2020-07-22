@@ -2,12 +2,13 @@ import React from 'react';
 import { Switch, Route } from "react-router-dom";
 
 import Main from '../Main/Main.jsx';
+import ConfirmTitles from '../ConfirmTitles/ConfirmTitles.jsx';
 
 const Routes = () => {
   return (
     <Switch>
-      <Route path='/new-tab'>
-        <div>this is the new tab you just opened</div>
+      <Route path='/confirm-titles'>
+        <ConfirmTitles />
       </Route>
 
       {/* This will fallback */}

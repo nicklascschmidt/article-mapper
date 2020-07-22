@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Link } from "react-router-dom";
 
-import Form from './Form/Form.jsx';
+import SearchTitlesForm from './SearchTitlesForm/SearchTitlesForm.jsx';
 
 const Container = styled.div``;
 
@@ -12,9 +12,9 @@ class Main extends Component {
       <Container>
         <div>i am main</div>
 
-        <Form />
+        <SearchTitlesForm />
 
-        <Link to='/new-tab'>
+        <Link to='/confirm-titles'>
           <div>Go to Tab</div>
         </Link>
       </Container>
