@@ -90,14 +90,12 @@ const findSameClassEls = ($, elType, classes) => {
 
 /**
  * @summary - trim text list to proper size with the correct titles
- * @returns {string[]} - list of 
+ * @returns {string[]} - list of titles the same length as numOfTitles
  */
 const getTitleTextList = (elTexts, numOfTitles, firstTitleHtmlText) => {
   const firstTextStartList = elTexts.slice(elTexts.indexOf(firstTitleHtmlText));
   
-  const trimmedToFitList = firstTextStartList.slice(0, numOfTitles)
-  
-  return trimmedToFitList;
+  return firstTextStartList.slice(0, numOfTitles)
 }
 
 /**
@@ -106,8 +104,8 @@ const getTitleTextList = (elTexts, numOfTitles, firstTitleHtmlText) => {
 const trimSimilarElList = ($, elList, firstTitleHtmlText, numOfTitles) => {
   let elTexts = [];
   elList.each((idx, el) => {
-    console.log(idx, $(el).text());
-    elTexts.push($(el).text());
+    console.log(idx, $(el).text().trim());
+    elTexts.push($(el).text().trim());
   });
 
   if (elTexts.includes(firstTitleHtmlText)) {
@@ -115,7 +113,7 @@ const trimSimilarElList = ($, elList, firstTitleHtmlText, numOfTitles) => {
     return getTitleTextList(elTexts, numOfTitles, firstTitleHtmlText);
   }
 
-  return null;
+  return [];
 }
 
 /**
