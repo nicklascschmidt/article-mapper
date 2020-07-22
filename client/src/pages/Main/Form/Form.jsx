@@ -3,7 +3,9 @@ import _ from 'lodash';
 import axios from 'axios';
 import styled from 'styled-components';
 
-import sampleData from '../../../data/sampleMainForm.data';
+import sampleData from './sampleForm.data';
+import formElementsData from './Form.data';
+import LabelInputPair from '../../../common/LabelInputPair/LabelInputPair.jsx';
 
 const StyledForm = styled.form`
   padding: 1rem;
@@ -13,7 +15,6 @@ const StyledForm = styled.form`
   }
 `;
 
-
 class Form extends Component {
   constructor(props) {
     super(props);
@@ -22,7 +23,7 @@ class Form extends Component {
       preset: 0,
       url: '',
       firstTitleText: '',
-      elType: '',
+      elType: 'h2',
       numOfTitles: '',
     };
   }
@@ -70,7 +71,7 @@ class Form extends Component {
   }
 
   render() {
-    const { preset, url, firstTitleText, elType, numOfTitles } = this.state;
+    const { preset } = this.state;
 
     return (
       <StyledForm onSubmit={this.handleSubmit}>
@@ -85,38 +86,18 @@ class Form extends Component {
             return <option key={`inputPreset-dropdown-option-${idx}`} value={idx}>{ item.name }</option>;
           })}
         </select>
-        <label htmlFor="inputUrl">URL:</label>
-        <input
-          id='inputUrl'
-          name='url'
-          type='text'
-          value={url}
-          onChange={this.handleChange}
-        />
-        <label htmlFor="inputfirstTitleText">First Item Text:</label>
-        <input
-          id='inputfirstTitleText'
-          name='firstTitleText'
-          type='text'
-          value={firstTitleText}
-          onChange={this.handleChange}
-        />
-        <label htmlFor="inputElType">Element Type:</label>
-        <input
-          id='inputElType'
-          name='elType'
-          type='text'
-          value={elType}
-          onChange={this.handleChange}
-        />
-        <label htmlFor="inputnumOfTitles">Number of Items:</label>
-        <input
-          id='inputnumOfTitles'
-          name='numOfTitles'
-          type='text'
-          value={numOfTitles}
-          onChange={this.handleChange}
-        />
+
+        {formElementsData.map((item) => {
+          const { name, displayText } = item;
+          return (
+            <LabelInputPair
+              name={name}
+              value={this.state[name]}
+              displayText={displayText}
+              onChange={this.handleChange}
+            />
+          )
+        })}
 
         <input type="submit" value="Scrape" />
       </StyledForm>

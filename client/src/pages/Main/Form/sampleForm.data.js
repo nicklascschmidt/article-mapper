@@ -18,7 +18,7 @@ export default [
     name: 'Washington State',
     url: 'https://www.tripsavvy.com/top-washington-state-attractions-1608557',
     firstTitleText: 'Explore Olympic National Park',
-    elType: 'a',
+    elType: 'h2',
     numOfTitles: '12',
   },
 ];
