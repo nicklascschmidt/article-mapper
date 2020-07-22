@@ -17,7 +17,7 @@ const fetchArticleData = ({ url, ...params }) => {
  * what an incrementer looks like if any (i.e. '1. ', '1)', etc.)
  * what type of element it is
  * if the element has a class or ID
- * what the text is for the first item
+ * what the text is for the first title
 */
 
 /**
@@ -68,7 +68,7 @@ const grabFirstEl = ($, firstTitleText, elType) => {
  *          - look for classes, part of an ID, etc.
  * @param {*} $ - cheerio HTML
  * @param {*} el - DOM node
- * @returns {object} - object with fields relevant to finding other items
+ * @returns {object} - object with fields relevant to finding other titles
  */
 const getRelevantInfoFromEl = ($, el) => {
   console.log('el', el);
@@ -145,7 +145,7 @@ const scrapeArticleHtml = (html, params) => {
   const $ = cheerio.load(html);
 
   let returnData = {
-    items: [],
+    titles: [],
   };
 
   const {
@@ -168,6 +168,7 @@ const scrapeArticleHtml = (html, params) => {
   const textListWithoutIncrements = trimIncrementsFromText(textList);
   console.log('textListWithoutIncrements', textListWithoutIncrements);
   
+  returnData.titles = textListWithoutIncrements;
 
   // return JSON.stringify(returnData);
   return returnData;
