@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
+import ConfirmTitlesForm from './ConfirmTitlesForm/ConfirmTitlesForm.jsx';
+
 const Container = styled.div``;
 
 class ConfirmTitles extends Component {
@@ -13,7 +15,7 @@ class ConfirmTitles extends Component {
           <div>Back to Search</div>
         </Link>
 
-        <div>ConfirmTitlesForm goes here</div>
+        <ConfirmTitlesForm />
 
       </Container>
     )
