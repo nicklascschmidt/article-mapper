@@ -70,13 +70,21 @@ class ConfirmTitlesForm extends Component {
     });
   }
 
+  
+  handleSubmit = (e) => {
+    e.preventDefault();
+    const { history } = this.props;
+
+    this.submitTitlesToRedux();
+    history.push('/map-view');
+  }
+
   /**
    * @summary - maps title obj into array of titles
    *          - filters out empty strings
    *          - update reducer titles
    */
-  handleSubmit = (e) => {
-    e.preventDefault();
+  submitTitlesToRedux = () => {
     const { replaceTitles } = this.props;
     const { titles } = this.state;
 
