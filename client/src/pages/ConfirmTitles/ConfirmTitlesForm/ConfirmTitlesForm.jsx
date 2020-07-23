@@ -70,22 +70,33 @@ class ConfirmTitlesForm extends Component {
     });
   }
 
+  /**
+   * @summary - maps title obj into array of titles
+   *          - filters out empty strings
+   *          - update reducer titles
+   */
   handleSubmit = (e) => {
     e.preventDefault();
     const { replaceTitles } = this.props;
     const { titles } = this.state;
 
-    const newTitles = Object.keys(titles).map((key, idx) => titles[key])
+    const newTitles = Object.keys(titles)
+      .map((key, idx) => titles[key])
+      .filter(title => title && title)
+    
     replaceTitles(newTitles);
   }
 
   handleAddTitleInput = (e) => {
-    this.setState(prevState => ({
-      titles: {
-        ...prevState.titles,
-        [prevState.titles.length + 1]: '',
-      }
-    }));
+    this.setState(prevState => {
+      const nextIndex = Object.keys(prevState.titles).length + 1;
+      return ({
+        titles: {
+          ...prevState.titles,
+          [nextIndex]: '',
+        }
+      });
+    });
   }
 
   render() {
