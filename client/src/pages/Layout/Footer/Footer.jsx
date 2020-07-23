@@ -17,7 +17,7 @@ class Footer extends Component {
           <a
             href='https://github.com/nicklascschmidt/article-mapper'
             target='_blank'
-            rel="noopener noreferrer"
+            rel='noopener noreferrer'
           >
             View on Github
           </a>

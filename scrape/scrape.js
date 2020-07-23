@@ -46,13 +46,13 @@ const grabFirstEl = ($, firstTitleText, elType) => {
   let elText = '';
   let testCase = '';
   
-  el = $(`${elType}:contains("${firstTitleText}")`);
+  el = $(`${elType}:contains('${firstTitleText}')`);
   elText = el.text().trim();
 
   if (firstTitleText === elText) return { el };
 
   testCase = firstTitleText.replace(' ', '  ');
-  el = $(`${elType}:contains("${testCase}")`);
+  el = $(`${elType}:contains('${testCase}')`);
   elText = el.text().trim();
 
   if (testCase === elText) return { el, firstTitleHtmlText: testCase };
@@ -73,7 +73,7 @@ const grabFirstEl = ($, firstTitleText, elType) => {
 const getRelevantInfoFromEl = ($, el) => {
   console.log('el', el);
 
-  // const element = $(`${elType}[attr*=${commonAttribute}]")`);
+  // const element = $(`${elType}[attr*=${commonAttribute}])`);
   // const element = $(`${elType}.${commonClass}`);
   const classes = el.attr('class');
   console.log('classes', classes);
