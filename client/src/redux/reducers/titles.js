@@ -1,7 +1,25 @@
 import * as T from '../actionTypes';
 
 const initialState = {
-  titles: [],
+  // titleStrings: [],
+  // TODO: testing, revert
+  titleStrings: [
+    "Fort Williams Park",
+    "Crescent Beach State Park",
+    "Goddard Mansion",
+    "Portland Head Lighthouse",
+    "Cape Elizabeth Lighthouse",
+    "Two Lights State Park",
+    "Richmond Island",
+    "Peak’s Island",
+    "Sea Fishing",
+    "Spurwink Church",
+    "Great Pond Trail",
+    "Winnick Woods",
+    "Alewives Brook Farm",
+    "C-Salt Gourmet Market",
+    "Seaglass Restaurant at Inn by the Sea"
+  ],
 };
 
 export default (state = initialState, action) => {
@@ -11,7 +29,7 @@ export default (state = initialState, action) => {
 
       return {
         ...state,
-        titles: state.titles.concat(titles),
+        titleStrings: state.titles.concat(titles),
       };
     }
 
@@ -20,7 +38,7 @@ export default (state = initialState, action) => {
 
       return {
         ...state,
-        titles,
+        titleStrings: titles,
       };
     }
 
