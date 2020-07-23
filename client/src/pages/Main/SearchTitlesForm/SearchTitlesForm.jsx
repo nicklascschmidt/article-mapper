@@ -105,7 +105,6 @@ class SearchTitlesForm extends Component {
 
   render() {
     const { preset } = this.state;
-    console.log('SearchTitlesForm props: ', this.props);
     
     return (
       <StyledForm onSubmit={this.handleSubmit}>
@@ -140,15 +139,11 @@ class SearchTitlesForm extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  titles: state.titles,
-});
-
 const mapDispatchToProps = {
   replaceTitles,
 };
 
 export default withRouter(connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(SearchTitlesForm));
