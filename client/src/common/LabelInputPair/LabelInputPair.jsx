@@ -3,19 +3,26 @@ import styled from 'styled-components';
 
 const Input = styled.input`
   min-width: 20rem;
+  ${props => props.customStyle};
 `;
 
-const LabelInputPair = ({ type = 'text', name, value, displayText, onChange }) => {
+const LabelInputPair = ({
+  type = 'text', name, value, displayText, onChange, customStyle,
+  noColon = false, noLabel = false,
+}) => {
   const id = `${name}Input`;
   return (
     <Fragment>
-      <label htmlFor={id}>{ displayText }:</label>
+      {noLabel ? null : (
+        <label htmlFor={id}>{`${displayText}${noColon ? '' : ':'}`}</label>
+      )}
       <Input
         id={id}
         name={name}
         type={type}
         value={value}
         onChange={onChange}
+        customStyle={customStyle}
       />
     </Fragment>
   )
