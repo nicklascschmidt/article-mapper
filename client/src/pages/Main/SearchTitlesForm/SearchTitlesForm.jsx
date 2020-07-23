@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
+import { connect } from 'react-redux';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
-import sampleData from './sampleForm.data';
+import sampleData, { sampleTitlesResponse } from './sampleForm.data';
 import formElementsData from './SearchTitlesForm.data';
 import LabelInputPair from '../../../common/LabelInputPair/LabelInputPair.jsx';
+
+import { replaceTitles } from '../../../redux/actions';
 
 const StyledForm = styled.form`
   max-width: min-content;
@@ -31,9 +34,9 @@ class SearchTitlesForm extends Component {
     this.state = {
       preset: 0,
       url: '',
+      numOfTitles: '',
       firstTitleText: '',
       elType: 'h2',
-      numOfTitles: '',
     };
   }
 
@@ -63,11 +66,19 @@ class SearchTitlesForm extends Component {
   handleSubmit = async (e) => {
     e.preventDefault();
 
-    const { history } = this.props;
+    const { history, replaceTitles } = this.props;
 
     try {
-      const { data } = await this.getScrapedSiteData();
-      console.log('data', data);
+      // TODO: testing, revert
+      // const { data } = await this.getScrapedSiteData();
+      // console.log('data', data);
+      // const { titles } = data;
+
+      const titles = sampleTitlesResponse;
+      console.log('titles', titles);
+      
+
+      replaceTitles(titles);
       
       history.push('/confirm-titles');
       
@@ -94,10 +105,11 @@ class SearchTitlesForm extends Component {
 
   render() {
     const { preset } = this.state;
-
+    console.log('SearchTitlesForm props: ', this.props);
+    
     return (
       <StyledForm onSubmit={this.handleSubmit}>
-        <label htmlFor="inputPreset">Preset:</label>
+        <label htmlFor='inputPreset'>Preset:</label>
         <select
           id='inputPreset'
           name='preset'
@@ -122,10 +134,21 @@ class SearchTitlesForm extends Component {
           )
         })}
 
-        <input type="submit" value="Scrape" />
+        <input type='submit' value='Scrape' />
       </StyledForm>
     )
   }
 }
 
-export default withRouter(SearchTitlesForm);
+const mapStateToProps = state => ({
+  titles: state.titles,
+});
+
+const mapDispatchToProps = {
+  replaceTitles,
+};
+
+export default withRouter(connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SearchTitlesForm));

@@ -1,4 +1,22 @@
 
+export const sampleTitlesResponse = [
+  "Fort Williams Park",
+  "Crescent Beach State Park",
+  "Goddard Mansion",
+  "Portland Head Lighthouse",
+  "Cape Elizabeth Lighthouse",
+  "Two Lights State Park",
+  "Richmond Island",
+  "Peak’s Island",
+  "Sea Fishing",
+  "Spurwink Church",
+  "Great Pond Trail",
+  "Winnick Woods",
+  "Alewives Brook Farm",
+  "C-Salt Gourmet Market",
+  "Seaglass Restaurant at Inn by the Sea"
+];
+
 export default [
   {
     name: 'Maine',
