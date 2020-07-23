@@ -1,19 +1,28 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
-import Main from '../Main/Main.jsx';
+import SearchTitles from '../SearchTitles/SearchTitles.jsx';
 import ConfirmTitles from '../ConfirmTitles/ConfirmTitles.jsx';
+import MapView from '../MapView/MapView.jsx';
 
 const Routes = () => {
   return (
     <Switch>
+      <Route path='/map-view'>
+        <MapView />
+      </Route>
+
       <Route path='/confirm-titles'>
         <ConfirmTitles />
       </Route>
 
+      <Route path='/search-titles'>
+        <SearchTitles />
+      </Route>
+
       {/* This will fallback */}
       <Route path='/'>
-        <Main />
+        <SearchTitles />
       </Route>
     </Switch>
   );

@@ -10,13 +10,11 @@ class ConfirmTitles extends Component {
   render() {
     return (
       <Container>
-        <div>i am confirm titles</div>
-        <Link to='/new-tab'>
+        <Link to='/search-titles'>
           <div>Back to Search</div>
         </Link>
 
         <ConfirmTitlesForm />
-
       </Container>
     )
   }
