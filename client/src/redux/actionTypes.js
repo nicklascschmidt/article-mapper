@@ -1,2 +1,4 @@
 export const ADD_TITLES = 'ADD_TITLES';
 export const REPLACE_TITLES = 'REPLACE_TITLES';
+
+export const UPDATE_LOCATION = 'UPDATE_LOCATION';
