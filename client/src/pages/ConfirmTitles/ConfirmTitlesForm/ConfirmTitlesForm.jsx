@@ -34,7 +34,6 @@ class ConfirmTitlesForm extends Component {
 
     this.state = {
       titles: {},
-      test: 'im still here',
     };
   }
 

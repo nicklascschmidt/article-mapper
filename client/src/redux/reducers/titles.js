@@ -4,21 +4,26 @@ const initialState = {
   // titleStrings: [],
   // TODO: testing, revert
   titleStrings: [
-    "Fort Williams Park",
-    "Crescent Beach State Park",
-    "Goddard Mansion",
-    "Portland Head Lighthouse",
-    "Cape Elizabeth Lighthouse",
-    "Two Lights State Park",
-    "Richmond Island",
-    "Peak’s Island",
-    "Sea Fishing",
-    "Spurwink Church",
-    "Great Pond Trail",
-    "Winnick Woods",
-    "Alewives Brook Farm",
-    "C-Salt Gourmet Market",
-    "Seaglass Restaurant at Inn by the Sea"
+    "1256 page st sf",
+    "streettaco sf", // multiple results
+    "coit tower",
+    "aburaya oakland", // out of bounds
+    "san francisco botanical garden",
+    // "Fort Williams Park",
+    // "Crescent Beach State Park",
+    // "Goddard Mansion",
+    // "Portland Head Lighthouse",
+    // "Cape Elizabeth Lighthouse",
+    // "Two Lights State Park",
+    // "Richmond Island",
+    // "Peak’s Island",
+    // "Sea Fishing",
+    // "Spurwink Church",
+    // "Great Pond Trail",
+    // "Winnick Woods",
+    // "Alewives Brook Farm",
+    // "C-Salt Gourmet Market",
+    // "Seaglass Restaurant at Inn by the Sea"
   ],
 };
 
