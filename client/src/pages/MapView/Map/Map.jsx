@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
+import _ from 'lodash';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 
 import { Map as LeafletMap, TileLayer, Marker, Popup } from 'react-leaflet';
+
+import { getLocationBounds, getOfficialLocations } from '../../../redux/selectors';
+
 
 const Container = styled.div``;
 
@@ -19,21 +23,43 @@ class Map extends Component {
   constructor(props) {
     super(props);
 
+    this.mapRef = React.createRef();
+
     this.state = {
       currentLocation: { lat: 37.771787, lng: -122.441541 },
       zoom: 12,
     }
   }
 
+  componentDidMount() {
+    console.log('mounted');
+    
+    this.adjustBounds();
+  }
+
+  componentDidUpdate(prevProps) {
+    const locations = _.get(this.props, 'locations', {});
+    const prevLocations = _.get(prevProps, 'locations', {});
+    console.log('Map updating?', Object.keys(locations).length, Object.keys(prevLocations).length);
+
+    if (Object.keys(locations).length !== Object.keys(prevLocations).length) {
+      console.log('adjusting bounds');
+      this.adjustBounds();
+    }
+  }
+
   displayMarkers = () => {
-    const { officialLocations } = this.props;
-    return Object.keys(officialLocations).map((key, idx) => {
-      const location = officialLocations[key];
-      const { lat, lon, display_name, userSubmittedTitle } = location;
+    const { locations } = this.props;
+    return Object.keys(locations).map((key, idx) => {
+      const {
+        formatted_address, lat, lng, name, place_id,
+        types, userSubmittedTitle,
+      } = locations[key];
+
       return (
-        <Marker key={`LeafletMap-marker-${idx}`} position={[lat, lon]}>
+        <Marker key={`LeafletMap-marker-${place_id}`} position={[lat, lng]}>
           <Popup>
-            {userSubmittedTitle} <br /> {display_name}
+            {userSubmittedTitle} <br /> {formatted_address}
           </Popup>
         </Marker>
       );
@@ -42,6 +68,14 @@ class Map extends Component {
 
   calculateCenterCoordinates = () => {
     
+  }
+
+  adjustBounds = () => {
+    const map = this.mapRef.current;
+    if (map != null) {
+      const { latLngBounds } = this.props;
+      map.leafletElement.fitBounds(latLngBounds);
+    }
   }
 
   render() {
@@ -53,10 +87,12 @@ class Map extends Component {
     return (
       <Container>
         <StyledLeafletMap
-          center={currentLocation} zoom={zoom}
+          center={currentLocation}
+          zoom={zoom}
+          ref={this.mapRef}
         >
           <TileLayer
-            url={`https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}?access_token=${process.env.REACT_APP_API_KEY_MAPBOX_CLIENT}`}
+            url={`https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}?access_token=${process.env.REACT_APP_API_KEY_MAPBOX}`}
             attribution="© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>"
           />
           { this.displayMarkers() }
@@ -67,8 +103,9 @@ class Map extends Component {
 }
 
 const mapStateToProps = state => ({
-  officialLocations: state.locations.official,
+  locations: getOfficialLocations(state.locations.official),
   titles: state.titles,
+  latLngBounds: getLocationBounds(state.locations.official),
 });
 
 const mapDispatchToProps = {};
