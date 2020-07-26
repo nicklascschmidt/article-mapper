@@ -5,18 +5,17 @@ import { connect } from 'react-redux';
 
 import { Map as LeafletMap, TileLayer, Marker, Popup } from 'react-leaflet';
 
-import { getLocationBounds, getOfficialLocations } from '../../../redux/selectors';
+import { getLocationBounds, getOfficialLocations } from '../../../../redux/selectors';
 
 
 const Container = styled.div``;
 
 const StyledLeafletMap = styled(LeafletMap)`
-  height: 512px;
-  width: 512px;
+  height: 90vh;
+  width: 100%;
 `;
 
 /** TODO:
- * adjust zoom to fit all markers
  * come up w a flow if multiple results are found
  */
 class Map extends Component {

@@ -2,7 +2,6 @@ import React, { Fragment } from 'react';
 import styled from 'styled-components';
 
 const Input = styled.input`
-  min-width: 20rem;
   ${props => props.customStyle};
 `;
 

@@ -3,19 +3,18 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
-import LabelInputPair from '../../../common/LabelInputPair/LabelInputPair.jsx';
+import LabelInputPair from '../../../../common/LabelInputPair/LabelInputPair.jsx';
 
-import { overwriteTitles } from '../../../redux/actions';
+import { overwriteTitles } from '../../../../redux/actions';
 
 const StyledForm = styled.form`
-  max-width: min-content;
   padding: 1rem;
-  margin: auto;
   border: 1px solid black;
   border-radius: .5rem;
 
   input {
     display: block;
+    
     &:last-child {
       margin-left: auto;
     }
@@ -75,7 +74,6 @@ class ConfirmTitlesForm extends Component {
     const { history } = this.props;
 
     this.submitTitlesToRedux();
-    history.push('/map-view');
   }
 
   /**
@@ -129,7 +127,7 @@ class ConfirmTitlesForm extends Component {
 
         <button type='button' onClick={(e) => this.handleAddTitleInput(e)}>+</button>
 
-        <input type='submit' value='Looks Good!' onClick={this.handleSubmit} />
+        <input type='submit' value='Update Map!' onClick={this.handleSubmit} />
       </StyledForm>
     )
   }

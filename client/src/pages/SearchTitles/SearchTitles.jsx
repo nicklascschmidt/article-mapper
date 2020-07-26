@@ -3,7 +3,9 @@ import styled from 'styled-components';
 
 import SearchTitlesForm from './SearchTitlesForm/SearchTitlesForm.jsx';
 
-const Container = styled.div``;
+const Container = styled.div`
+  padding: 1rem;
+`;
 
 class SearchTitles extends Component {
   render() {

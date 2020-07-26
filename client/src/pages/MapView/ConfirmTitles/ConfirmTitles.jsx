@@ -4,14 +4,21 @@ import { Link } from 'react-router-dom';
 
 import ConfirmTitlesForm from './ConfirmTitlesForm/ConfirmTitlesForm.jsx';
 
-const Container = styled.div``;
+const Container = styled.div`
+  display: grid;
+  grid-template-rows: min-content 1fr;
+`;
+
+const BackButton = styled.button`
+  margin: .5rem;
+`;
 
 class ConfirmTitles extends Component {
   render() {
     return (
       <Container>
-        <Link to='/search-titles'>
-          <div>Back to Search</div>
+        <Link to='/search'>
+          <BackButton>{`<-- Back to Search`}</BackButton>
         </Link>
 
         <ConfirmTitlesForm />

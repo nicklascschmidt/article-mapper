@@ -21,9 +21,11 @@ const StyledForm = styled.form`
   input, select {
     display: block;
     margin-bottom: 1rem;
+    width: 20rem;
   }
-  input:last-child {
+  input[type=submit] {
     margin-left: auto;
+    width: initial;
   }
 `;
 
@@ -80,7 +82,7 @@ class SearchTitlesForm extends Component {
 
       overwriteTitles(titles);
       
-      history.push('/confirm-titles');
+      history.push('/map');
       
       /** 
        * TODO: fire redux action to update the titles
