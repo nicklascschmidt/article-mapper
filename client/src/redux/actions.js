@@ -9,8 +9,8 @@ export const addTitles = titles => ({
   },
 });
 
-export const replaceTitles = titles => ({
-  type: T.REPLACE_TITLES,
+export const overwriteTitles = titles => ({
+  type: T.OVERWRITE_TITLES,
   payload: {
     titles,
   },
@@ -33,12 +33,28 @@ export const updateOfficialLocation = (key, location) => ({
   },
 });
 
-export const updateIncompleteLocation = (key, location) => ({
+export const updateUndeterminedLocation = (key, location) => ({
   type: T.UPDATE_LOCATION,
   payload: {
     key,
     location,
-    type: 'incomplete',
+    type: 'undetermined',
+  },
+});
+
+export const overwriteOfficialLocations = (locations) => ({
+  type: T.OVERWRITE_LOCATIONS_FIELD,
+  payload: {
+    field: 'official',
+    value: locations,
+  },
+});
+
+export const overwriteUndeterminedLocations = (locations) => ({
+  type: T.OVERWRITE_LOCATIONS_FIELD,
+  payload: {
+    field: 'undetermined',
+    value: locations,
   },
 });
 

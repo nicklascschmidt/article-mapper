@@ -2,7 +2,11 @@ import * as T from '../actionTypes';
 
 const initialState = {
   official: {},
-  incomplete: {},
+  /**
+   * TODO: use Google Places API locationbias to narrow undetermined list results down
+   * or even just autoselect the closest one
+   */
+  undetermined: {},
 };
 
 export default (state = initialState, action) => {
@@ -16,6 +20,15 @@ export default (state = initialState, action) => {
           ...state[type],
           [key]: location,
         },
+      };
+    }
+
+    case T.OVERWRITE_LOCATIONS_FIELD: {
+      const { field, value } = action.payload;
+
+      return {
+        ...state,
+        [field]: value,
       };
     }
 
