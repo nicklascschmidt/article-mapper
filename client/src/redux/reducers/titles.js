@@ -4,12 +4,13 @@ const initialState = {
   // titleStrings: [],
   // TODO: testing, revert
   titleStrings: [
-    "1256 page st sf",
-    "streettaco sf",
     "coit tower",
-    "183 eureka st sf",
-    "aburaya oakland",
-    "san francisco botanical garden",
+    // "1256 page st sf",
+    // "streettaco sf",
+    // "183 eureka st sf",
+    // "aburaya oakland",
+    // "san francisco botanical garden",
+    
     // "Fort Williams Park",
     // "Crescent Beach State Park",
     // "Goddard Mansion",

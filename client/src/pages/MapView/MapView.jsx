@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 
 import Map from './Map/Map.jsx';
 
-import { updateOfficialLocation, updateIncompleteLocation } from '../../redux/actions';
+import { overwriteOfficialLocations, overwriteUndeterminedLocations } from '../../redux/actions';
 
 const Container = styled.div``;
 
@@ -20,36 +20,59 @@ class MapView extends Component {
     };
   }
 
-  componentDidMount() {
-    this.getLocationData();
+  componentDidMount = async () => {
+    try {
+      await this.getLocationData();
+    } catch (error) {
+      console.log(error);
+    }
     this.setState({ isLoading: false });
   }
 
-  getLocationData = () => {
-    const { titles, updateOfficialLocation, updateIncompleteLocation } = this.props;
+  /**
+   * @summary - Get location data from openstreetmap API
+   *          - Map through locations and build two arrays
+   *              - official: single location in the response
+   *              - undetermined: multiple locations in the response
+   *          - determined un
+   *          - Update redux with each list of locations
+  */
+  getLocationData = async () => {
+    const { titles, overwriteOfficialLocations, overwriteUndeterminedLocations } = this.props;
 
-    titles.map(async (title, idx) => {
-      try {
-        const { data: locationArray } = await this.fetchLocationData(title);
-        console.log('locationArray', locationArray);
-        
-        if (locationArray.length === 1) {
-          updateOfficialLocation(idx, {
-            userSubmittedTitle: title,
-            ...locationArray[0],
-          });
-        } else {
-          updateIncompleteLocation(idx, locationArray);
+    const locationDataPromises = this.getLocationDataPromises();
+    const locations = await Promise.all(locationDataPromises).catch(err => console.log(err));
+    console.log('locations', locations);
+    
+    let official = {};
+    let undetermined = {};
+
+    locations.forEach(async (locationResp, idx) => {
+      const locationArr = _.get(locationResp, 'data.candidates', {});
+      if (locationArr.length === 1) {
+        official[idx] = {
+          userSubmittedTitle: titles[idx],
+          ...locationArr[0],
         }
-      } catch (error) {
-        console.log(error);
+      } else {
+        undetermined[idx] = locationArr;
       }
+    });
+
+    overwriteOfficialLocations(official);
+    overwriteUndeterminedLocations(undetermined);
+  }
+
+  getLocationDataPromises = () => {
+    const { titles } = this.props;
+    return titles.map(async (title, idx) => {
+      return this.fetchLocationData(title, { padding: [20, 20] });
     });
   }
 
   fetchLocationData = (searchTerm) => {
-    const queryString = encodeURI(searchTerm);
-    return axios(`https://nominatim.openstreetmap.org/search?q=${queryString}&format=json`)
+    const params = { fields: 'formatted_address,type' }
+    return axios.get(`/api/client/find-place-from-text/${searchTerm}`, { params });
   }
 
   determineCorrectLocation = () => {
@@ -57,7 +80,6 @@ class MapView extends Component {
   }
 
   render() {
-    /** wait to render the map until the locations are in redux */
     const { isLoading } = this.state;
     const { locations } = this.props;
     
@@ -65,7 +87,9 @@ class MapView extends Component {
       <Container>
         <div>map view</div>
 
-        {!isLoading && !_.isEmpty(locations.official) && <Map />}
+        {isLoading
+          ? <div>loading...</div>
+          : (!_.isEmpty(locations.official) && <Map />)}
 
         <Link to='/confirm-titles'>
           <div>Back to Search</div>
@@ -81,8 +105,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  updateOfficialLocation,
-  updateIncompleteLocation,
+  overwriteOfficialLocations,
+  overwriteUndeterminedLocations,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MapView);
