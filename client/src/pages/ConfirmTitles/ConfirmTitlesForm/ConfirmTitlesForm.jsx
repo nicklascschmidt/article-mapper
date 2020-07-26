@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 import LabelInputPair from '../../../common/LabelInputPair/LabelInputPair.jsx';
 
-import { replaceTitles } from '../../../redux/actions';
+import { overwriteTitles } from '../../../redux/actions';
 
 const StyledForm = styled.form`
   max-width: min-content;
@@ -84,14 +84,14 @@ class ConfirmTitlesForm extends Component {
    *          - update reducer titles
    */
   submitTitlesToRedux = () => {
-    const { replaceTitles } = this.props;
+    const { overwriteTitles } = this.props;
     const { titles } = this.state;
 
     const newTitles = Object.keys(titles)
       .map((key, idx) => titles[key])
       .filter(title => title && title)
     
-    replaceTitles(newTitles);
+    overwriteTitles(newTitles);
   }
 
   handleAddTitleInput = (e) => {
@@ -140,7 +140,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  replaceTitles,
+  overwriteTitles,
 };
 
 export default withRouter(connect(

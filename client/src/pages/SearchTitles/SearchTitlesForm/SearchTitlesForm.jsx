@@ -9,7 +9,7 @@ import sampleData, { sampleTitlesResponse } from './sampleForm.data';
 import formElementsData from './SearchTitlesForm.data';
 import LabelInputPair from '../../../common/LabelInputPair/LabelInputPair.jsx';
 
-import { replaceTitles } from '../../../redux/actions';
+import { overwriteTitles } from '../../../redux/actions';
 
 const StyledForm = styled.form`
   max-width: min-content;
@@ -66,7 +66,7 @@ class SearchTitlesForm extends Component {
   handleSubmit = async (e) => {
     e.preventDefault();
 
-    const { history, replaceTitles } = this.props;
+    const { history, overwriteTitles } = this.props;
 
     try {
       // TODO: testing, revert
@@ -78,7 +78,7 @@ class SearchTitlesForm extends Component {
       console.log('titles', titles);
       
 
-      replaceTitles(titles);
+      overwriteTitles(titles);
       
       history.push('/confirm-titles');
       
@@ -140,7 +140,7 @@ class SearchTitlesForm extends Component {
 }
 
 const mapDispatchToProps = {
-  replaceTitles,
+  overwriteTitles,
 };
 
 export default withRouter(connect(
