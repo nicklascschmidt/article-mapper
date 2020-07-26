@@ -5,9 +5,10 @@ const initialState = {
   // TODO: testing, revert
   titleStrings: [
     "1256 page st sf",
-    "streettaco sf", // multiple results
+    "streettaco sf",
     "coit tower",
-    "aburaya oakland", // out of bounds
+    "183 eureka st sf",
+    "aburaya oakland",
     "san francisco botanical garden",
     // "Fort Williams Park",
     // "Crescent Beach State Park",
@@ -38,7 +39,7 @@ export default (state = initialState, action) => {
       };
     }
 
-    case T.REPLACE_TITLES: {
+    case T.OVERWRITE_TITLES: {
       const { titles } = action.payload;
 
       return {
