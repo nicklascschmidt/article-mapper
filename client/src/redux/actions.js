@@ -24,38 +24,37 @@ export const overwriteTitles = titles => ({
  * @param {number} key - index from the titles array
  * @param {object} location - location object from openstreetmap API
  */
-export const updateOfficialLocation = (key, location) => ({
-  type: T.UPDATE_LOCATION,
+export const updateLocationByIndex = (index, location) => ({
+  type: T.UPDATE_LOCATION_BY_INDEX,
   payload: {
-    key,
+    index,
     location,
-    type: 'official',
   },
 });
 
-export const updateUndeterminedLocation = (key, location) => ({
-  type: T.UPDATE_LOCATION,
+export const addNewOfficialLocation = (locationData) => ({
+  type: T.ADD_NEW_LOCATION,
   payload: {
-    key,
-    location,
-    type: 'undetermined',
+    ...locationData,
+    status: 'official',
   },
 });
 
-export const overwriteOfficialLocations = (locations) => ({
+export const addNewUndeterminedLocation = (locations) => ({
+  type: T.ADD_NEW_LOCATION,
+  payload: {
+    possibleLocations: locations,
+    status: 'undetermined',
+  },
+});
+
+export const overwriteLocationsField = (field, data) => ({
   type: T.OVERWRITE_LOCATIONS_FIELD,
   payload: {
-    field: 'official',
-    value: locations,
+    field,
+    value: data,
   },
 });
 
-export const overwriteUndeterminedLocations = (locations) => ({
-  type: T.OVERWRITE_LOCATIONS_FIELD,
-  payload: {
-    field: 'undetermined',
-    value: locations,
-  },
-});
 
 // export const setFilter = filter => ({ type: SET_FILTER, payload: { filter } });
