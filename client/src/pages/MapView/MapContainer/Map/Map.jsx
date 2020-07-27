@@ -37,28 +37,29 @@ class Map extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const locations = _.get(this.props, 'locations', {});
-    const prevLocations = _.get(prevProps, 'locations', {});
-    console.log('Map updating?', Object.keys(locations).length, Object.keys(prevLocations).length);
+    const { officialLocations } = this.props;
+    const { officialLocations: previousOfficialLocations } = prevProps;
 
-    if (Object.keys(locations).length !== Object.keys(prevLocations).length) {
+    console.log('Map updating?', officialLocations.length, previousOfficialLocations.length);
+
+    if (officialLocations.length !== previousOfficialLocations.length) {
       console.log('adjusting bounds');
       this.adjustBounds();
     }
   }
 
   displayMarkers = () => {
-    const { locations } = this.props;
-    return Object.keys(locations).map((key, idx) => {
+    const { officialLocations } = this.props;
+    return officialLocations.map((location, idx) => {
       const {
         formatted_address, lat, lng, name, place_id,
-        types, userSubmittedTitle,
-      } = locations[key];
-
+        types, userSearchTerm,
+      } = location;
+      
       return (
         <Marker key={`LeafletMap-marker-${place_id}`} position={[lat, lng]}>
           <Popup>
-            {userSubmittedTitle} <br /> {formatted_address}
+            {userSearchTerm} <br /> {formatted_address}
           </Popup>
         </Marker>
       );
@@ -83,6 +84,11 @@ class Map extends Component {
     
     const position = [lat, lng];
 
+    /**
+     * impl setMaxBounds w the max lat long
+     * https://leafletjs.com/reference-1.6.0.html#map-setmaxbounds
+    */
+
     return (
       <Container>
         <StyledLeafletMap
@@ -101,11 +107,16 @@ class Map extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  locations: getOfficialLocations(state.locations.official),
-  titles: state.titles,
-  latLngBounds: getLocationBounds(state.locations.official),
-});
+const mapStateToProps = state => {  
+  const officialLocations = getOfficialLocations(state.locations.locationsList);
+  console.log('officialLocations', officialLocations);
+  
+  return {
+    officialLocations,
+    titles: state.titles,
+    latLngBounds: getLocationBounds(officialLocations),
+  };
+};
 
 const mapDispatchToProps = {};
 

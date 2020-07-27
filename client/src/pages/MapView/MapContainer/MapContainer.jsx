@@ -6,7 +6,8 @@ import styled from 'styled-components';
 
 import Map from './Map/Map.jsx';
 
-import { overwriteOfficialLocations, overwriteUndeterminedLocations } from '../../../redux/actions';
+import { overwriteLocationsField } from '../../../redux/actions';
+import { getOfficialLocations } from '../../../redux/selectors';
 
 const Container = styled.div``;
 
@@ -35,37 +36,39 @@ class MapContainer extends Component {
   }
 
   /**
-   * @summary - Get location data from openstreetmap API
-   *          - Map through locations and build two arrays
-   *              - official: single location in the response
-   *              - undetermined: multiple locations in the response
-   *          - determined un
-   *          - Update redux with each list of locations
+   * @summary - Get location data from GPlaces API for all locations
+   *          - Map through locations and add all to an array
+   *              - official: single location spread as an obj
+   *              - undetermined: multiple locations in locationsList, rest of fields in obj (status, id, etc.)
+   *          - Update redux with the full list of locations
   */
   getLocationData = async () => {
-    const { titles, overwriteOfficialLocations, overwriteUndeterminedLocations } = this.props;
+    const { titles, overwriteLocationsField } = this.props;
 
     const locationDataPromises = this.getLocationDataPromises();
     const locations = await Promise.all(locationDataPromises).catch(err => console.log(err));
-    console.log('locations', locations);
     
-    let official = {};
-    let undetermined = {};
+    let locationData = [];
 
     locations.forEach(async (locationResp, idx) => {
       const locationArr = _.get(locationResp, 'data.candidates', {});
-      if (locationArr.length === 1) {
-        official[idx] = {
-          userSubmittedTitle: titles[idx],
-          ...locationArr[0],
-        }
-      } else {
-        undetermined[idx] = locationArr;
-      }
+
+      locationData.push(
+        (locationArr.length === 1)
+          ? {
+            _id: idx.toString(),
+            status: 'official',
+            userSearchTerm: titles[idx],
+            ...locationArr[0],
+          } : {
+            _id: idx.toString(),
+            status: 'undetermined',
+            possibleLocations: locationArr,
+          }
+      );
     });
 
-    overwriteOfficialLocations(official);
-    overwriteUndeterminedLocations(undetermined);
+    overwriteLocationsField('locationsList', locationData);
   }
 
   getLocationDataPromises = () => {
@@ -86,7 +89,7 @@ class MapContainer extends Component {
 
   render() {
     const { isLoading } = this.state;
-    const { locations } = this.props;
+    const { officialLocations } = this.props;
     
     return (
       <Container>
@@ -94,20 +97,19 @@ class MapContainer extends Component {
 
         {isLoading
           ? <div>loading...</div>
-          : (!_.isEmpty(locations.official) && <Map />)}
+          : (!_.isEmpty(officialLocations) && <Map />)}
       </Container>
     )
   }
 }
 
 const mapStateToProps = state => ({
-  locations: state.locations,
+  officialLocations: getOfficialLocations(state.locations.locationsList),
   titles: state.titles.titleStrings,
 });
 
 const mapDispatchToProps = {
-  overwriteOfficialLocations,
-  overwriteUndeterminedLocations,
+  overwriteLocationsField,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MapContainer);
