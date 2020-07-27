@@ -4,7 +4,7 @@ import _ from 'lodash';
  * @summary - parses Google Places API location and returns a flat(ish) object
  * @param {object} location - GPlaces API location object
  */
-export const parseOfficialLocation = (location) => {
+export const parseLocationBody = (location) => {
   return {
     userSubmittedTitle: _.get(location, 'userSubmittedTitle', ''), // manually passed in
     formatted_address: _.get(location, 'formatted_address', ''),

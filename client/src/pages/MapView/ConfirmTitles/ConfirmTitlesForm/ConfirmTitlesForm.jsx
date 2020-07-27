@@ -71,8 +71,6 @@ class ConfirmTitlesForm extends Component {
   
   handleSubmit = (e) => {
     e.preventDefault();
-    const { history } = this.props;
-
     this.submitTitlesToRedux();
   }
 
