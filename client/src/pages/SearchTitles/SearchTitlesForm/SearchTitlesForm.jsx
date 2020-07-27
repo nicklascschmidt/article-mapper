@@ -83,11 +83,6 @@ class SearchTitlesForm extends Component {
       overwriteTitles(titles);
       
       history.push('/map');
-      
-      /** 
-       * TODO: fire redux action to update the titles
-       * history.push(/confirm-titles)
-      */
     } catch (error) {
       console.log(error);
     }

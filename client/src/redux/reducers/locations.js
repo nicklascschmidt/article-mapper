@@ -9,7 +9,7 @@ import * as T from '../actionTypes';
 //       ],
 //     },
 //     1: {
-//       status: 'official',
+//       status: 'determined',
 //       ...locationApi,
 //     }
 //   }
@@ -20,30 +20,46 @@ import * as T from '../actionTypes';
  * or even just autoselect the closest one
 */
 const initialState = {
-  locationsList: [],
+  data: {},
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case T.UPDATE_LOCATION_BY_INDEX: {
-      const { index, location } = action.payload;
-      const newLocationList = state.locationsList;
-      newLocationList[index] = location;
+    case T.UPDATE_LOCATION_BY_KEY: {
+      const { key, location } = action.payload;
 
       return {
         ...state,
-        locationsList: newLocationList,
+        data: {
+          ...state.data,
+          [key]: location,
+        },
       };
     }
 
-    case T.ADD_NEW_LOCATION: {
-      const newLocationList = state.locationsList;
-      newLocationList.push(action.payload);
+    case T.UPDATE_LOCATION_STATUS_BY_KEY: {
+      const { key, status } = action.payload;
 
       return {
         ...state,
-        locationsList: newLocationList,
+        data: {
+          ...state.data,
+          [key]: {
+            ...state.data[key],
+            status,
+          },
+        },
       };
+    }
+
+    /** untested */
+    case T.ADD_NEW_LOCATION: {
+      const nextIndex = Object.keys(state.data).length + 1;
+
+      return {
+        ...state,
+        [nextIndex]: action.payload,
+      }
     }
 
     case T.OVERWRITE_LOCATIONS_FIELD: {

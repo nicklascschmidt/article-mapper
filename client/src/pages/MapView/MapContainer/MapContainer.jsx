@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import Map from './Map/Map.jsx';
 
 import { overwriteLocationsField } from '../../../redux/actions';
-import { getOfficialLocations } from '../../../redux/selectors';
+import { getDeterminedLocations } from '../../../redux/selectors';
 
 const Container = styled.div``;
 
@@ -37,10 +37,10 @@ class MapContainer extends Component {
 
   /**
    * @summary - Get location data from GPlaces API for all locations
-   *          - Map through locations and add all to an array
-   *              - official: single location spread as an obj
-   *              - undetermined: multiple locations in locationsList, rest of fields in obj (status, id, etc.)
-   *          - Update redux with the full list of locations
+   *          - Map through locations and add all to a locationData obj of objs
+   *              - determined: single location spread as an obj
+   *              - undetermined: multiple locations in locations.data, rest of fields in obj (status, id, etc.)
+   *          - Update redux with the full obj of locations
   */
   getLocationData = async () => {
     const { titles, overwriteLocationsField } = this.props;
@@ -48,27 +48,27 @@ class MapContainer extends Component {
     const locationDataPromises = this.getLocationDataPromises();
     const locations = await Promise.all(locationDataPromises).catch(err => console.log(err));
     
-    let locationData = [];
+    let locationData = {};
 
     locations.forEach(async (locationResp, idx) => {
       const locationArr = _.get(locationResp, 'data.candidates', {});
 
-      locationData.push(
-        (locationArr.length === 1)
-          ? {
-            _id: idx.toString(),
-            status: 'official',
-            userSearchTerm: titles[idx],
-            ...locationArr[0],
-          } : {
-            _id: idx.toString(),
-            status: 'undetermined',
-            possibleLocations: locationArr,
-          }
-      );
+      const newLocation = (locationArr.length === 1)
+        ? {
+          _id: idx.toString(),
+          status: 'determined',
+          userSearchTerm: titles[idx],
+          ...locationArr[0],
+        } : {
+          _id: idx.toString(),
+          status: 'undetermined',
+          possibleLocations: locationArr,
+        };
+
+      locationData[idx] = newLocation;
     });
 
-    overwriteLocationsField('locationsList', locationData);
+    overwriteLocationsField('data', locationData);
   }
 
   getLocationDataPromises = () => {
@@ -89,7 +89,7 @@ class MapContainer extends Component {
 
   render() {
     const { isLoading } = this.state;
-    const { officialLocations } = this.props;
+    const { determinedLocations } = this.props;
     
     return (
       <Container>
@@ -97,14 +97,14 @@ class MapContainer extends Component {
 
         {isLoading
           ? <div>loading...</div>
-          : (!_.isEmpty(officialLocations) && <Map />)}
+          : (!_.isEmpty(determinedLocations) && <Map />)}
       </Container>
     )
   }
 }
 
 const mapStateToProps = state => ({
-  officialLocations: getOfficialLocations(state.locations.locationsList),
+  determinedLocations: getDeterminedLocations(state.locations.data),
   titles: state.titles.titleStrings,
 });
 

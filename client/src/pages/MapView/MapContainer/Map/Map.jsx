@@ -5,7 +5,8 @@ import { connect } from 'react-redux';
 
 import { Map as LeafletMap, TileLayer, Marker, Popup } from 'react-leaflet';
 
-import { getLocationBounds, getOfficialLocations } from '../../../../redux/selectors';
+import { getLocationBounds, getDeterminedLocations } from '../../../../redux/selectors';
+import { updateLocationStatusByKey } from '../../../../redux/actions';
 
 
 const Container = styled.div``;
@@ -37,24 +38,26 @@ class Map extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { officialLocations } = this.props;
-    const { officialLocations: previousOfficialLocations } = prevProps;
+    const { determinedLocations } = this.props;
+    const { determinedLocations: previousDeterminedLocations } = prevProps;
 
-    console.log('Map updating?', officialLocations.length, previousOfficialLocations.length);
+    console.log('Map updating?', Object.keys(determinedLocations).length, Object.keys(previousDeterminedLocations).length);
 
-    if (officialLocations.length !== previousOfficialLocations.length) {
+    if (Object.keys(determinedLocations).length !== Object.keys(previousDeterminedLocations).length) {
       console.log('adjusting bounds');
       this.adjustBounds();
     }
   }
 
   displayMarkers = () => {
-    const { officialLocations } = this.props;
-    return officialLocations.map((location, idx) => {
+    const { determinedLocations, updateLocationStatusByKey } = this.props;
+    return Object.keys(determinedLocations).map((key, idx) => {
       const {
         formatted_address, lat, lng, name, place_id,
         types, userSearchTerm,
-      } = location;
+      } = determinedLocations[key];
+
+      // updateLocationStatusByKey(idx, 'mapped');
       
       return (
         <Marker key={`LeafletMap-marker-${place_id}`} position={[lat, lng]}>
@@ -107,18 +110,18 @@ class Map extends Component {
   }
 }
 
-const mapStateToProps = state => {  
-  const officialLocations = getOfficialLocations(state.locations.locationsList);
-  console.log('officialLocations', officialLocations);
+const mapStateToProps = state => {
+  const determinedLocations = getDeterminedLocations(state.locations.data);
   
   return {
-    officialLocations,
-    titles: state.titles,
-    latLngBounds: getLocationBounds(officialLocations),
+    determinedLocations,
+    latLngBounds: getLocationBounds(determinedLocations),
   };
 };
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  updateLocationStatusByKey,
+};
 
 export default connect(
   mapStateToProps,

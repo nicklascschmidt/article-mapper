@@ -18,25 +18,19 @@ export const overwriteTitles = titles => ({
 
 /** LOCATIONS */
 
-/**
- * @summary - updates an official location
- *          - overwrites if key already exists
- * @param {number} key - index from the titles array
- * @param {object} location - location object from openstreetmap API
- */
-export const updateLocationByIndex = (index, location) => ({
-  type: T.UPDATE_LOCATION_BY_INDEX,
+export const updateLocationStatusByKey = (key, status) => ({
+  type: T.UPDATE_LOCATION_STATUS_BY_KEY,
   payload: {
-    index,
-    location,
+    key,
+    status,
   },
 });
 
-export const addNewOfficialLocation = (locationData) => ({
+export const addNewDeterminedLocation = (locationData) => ({
   type: T.ADD_NEW_LOCATION,
   payload: {
     ...locationData,
-    status: 'official',
+    status: 'determined',
   },
 });
 
