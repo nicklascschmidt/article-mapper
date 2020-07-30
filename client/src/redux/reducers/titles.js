@@ -1,12 +1,12 @@
-import * as T from '../actionTypes';
+import * as T from '../actions/actionTypes';
 
 const initialState = {
   // titleStrings: [],
   // TODO: testing, revert
   titleStrings: [
     "coit tower",
-    // "1256 page st sf",
-    // "streettaco sf",
+    "1256 page st sf",
+    "streettaco sf",
     // "183 eureka st sf",
     // "aburaya oakland",
     // "san francisco botanical garden",

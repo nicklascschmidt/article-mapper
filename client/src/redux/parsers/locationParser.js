@@ -6,6 +6,7 @@ import _ from 'lodash';
  */
 export const parseLocationBody = (location) => {
   return {
+    _id: _.get(location, '_id', ''),
     userSearchTerm: _.get(location, 'userSearchTerm', ''), // manually passed in
     formatted_address: _.get(location, 'formatted_address', ''),
     lat: _.get(location, 'geometry.location.lat', ''),
