@@ -2,6 +2,7 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import SearchTitles from '../SearchTitles/SearchTitles.jsx';
+import ConfirmTitles from '../ConfirmTitles/ConfirmTitles.jsx';
 import MapView from '../MapView/MapView.jsx';
 
 const Routes = () => {
@@ -9,6 +10,10 @@ const Routes = () => {
     <Switch>
       <Route path='/map'>
         <MapView />
+      </Route>
+
+      <Route path='/confirm'>
+        <ConfirmTitles />
       </Route>
 
       <Route path='/search'>

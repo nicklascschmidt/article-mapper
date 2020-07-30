@@ -4,10 +4,7 @@ import { Link } from 'react-router-dom';
 
 import ConfirmTitlesForm from './ConfirmTitlesForm/ConfirmTitlesForm.jsx';
 
-const Container = styled.div`
-  display: grid;
-  grid-template-rows: min-content 1fr;
-`;
+const Container = styled.div``;
 
 const BackButton = styled.button`
   margin: .5rem;

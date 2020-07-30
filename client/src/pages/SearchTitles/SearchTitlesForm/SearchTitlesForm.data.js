@@ -2,18 +2,18 @@
 export default [
   {
     name: 'url',
-    displayText: 'URL',
+    labelText: 'URL',
   },
   {
     name: 'numOfTitles',
-    displayText: 'Number of Titles',
+    labelText: 'Number of Titles',
   },
   {
     name: 'firstTitleText',
-    displayText: 'First Title Text',
+    labelText: 'First Title Text',
   },
   {
     name: 'elType',
-    displayText: 'Element Type (defaults to h2)',
+    labelText: 'Element Type (defaults to h2)',
   },
 ];

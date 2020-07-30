@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
-import ConfirmTitles from './ConfirmTitles/ConfirmTitles.jsx';
+import MapSideBar from './MapSideBar/MapSideBar.jsx';
 import MapContainer from './MapContainer/MapContainer.jsx';
 
 const Container = styled.div`
@@ -13,7 +13,7 @@ class MapView extends Component {
   render() {
     return (
       <Container>
-        <ConfirmTitles />
+        <MapSideBar />
         <MapContainer />
       </Container>
     )

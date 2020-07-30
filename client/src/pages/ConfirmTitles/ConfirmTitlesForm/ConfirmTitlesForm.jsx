@@ -3,14 +3,16 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
-import LabelInputPair from '../../../../common/LabelInputPair/LabelInputPair.jsx';
+import LabelInputPair from '../../../common/LabelInputPair/LabelInputPair.jsx';
 
-import { overwriteTitles } from '../../../../redux/actions';
+import { overwriteTitles } from '../../../redux/actions';
 
 const StyledForm = styled.form`
   padding: 1rem;
   border: 1px solid black;
   border-radius: .5rem;
+  width: 300px;
+  margin: auto;
 
   input {
     display: block;
@@ -60,7 +62,7 @@ class ConfirmTitlesForm extends Component {
     }));
   }
 
-  handleDelete = (e, key) => {
+  handleRemove = (e, key) => {
     this.setState(prevState => {
       let titles = prevState.titles;
       delete titles[key];
@@ -68,9 +70,10 @@ class ConfirmTitlesForm extends Component {
     });
   }
 
-  
   handleSubmit = (e) => {
     e.preventDefault();
+    const { history } = this.props;
+    history.push('/map');
     this.submitTitlesToRedux();
   }
 
@@ -113,19 +116,19 @@ class ConfirmTitlesForm extends Component {
               <LabelInputPair
                 name={key}
                 value={titles[key]}
-                displayText={`${parseInt(key)+1}. `}
+                labelText={`${parseInt(key)+1}. `}
                 onChange={this.handleChange}
                 noColon
                 noLabel
               />
-              <button type='button' onClick={(e) => this.handleDelete(e, key)}>X</button>
+              <button type='button' onClick={(e) => this.handleRemove(e, key)}>X</button>
             </LabelInputContainer>
           );
         })}
 
         <button type='button' onClick={(e) => this.handleAddTitleInput(e)}>+</button>
 
-        <input type='submit' value='Update Map!' onClick={this.handleSubmit} />
+        <input type='submit' value='Confirm Locations' onClick={this.handleSubmit} />
       </StyledForm>
     )
   }

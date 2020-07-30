@@ -82,7 +82,7 @@ class SearchTitlesForm extends Component {
 
       overwriteTitles(titles);
       
-      history.push('/map');
+      history.push('/confirm');
     } catch (error) {
       console.log(error);
     }
@@ -118,13 +118,13 @@ class SearchTitlesForm extends Component {
         </select>
 
         {formElementsData.map((item, idx) => {
-          const { name, displayText } = item;
+          const { name, labelText } = item;
           return (
             <LabelInputPair
               key={`SearchTitlesForm-LabelInputPair-${idx}`}
               name={name}
               value={this.state[name]}
-              displayText={displayText}
+              labelText={labelText}
               onChange={this.handleChange}
             />
           )

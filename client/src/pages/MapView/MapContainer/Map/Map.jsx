@@ -33,7 +33,6 @@ class Map extends Component {
 
   componentDidMount() {
     console.log('mounted');
-    
     this.adjustBounds();
   }
 
