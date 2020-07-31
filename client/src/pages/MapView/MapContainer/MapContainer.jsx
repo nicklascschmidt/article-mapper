@@ -60,7 +60,6 @@ class MapContainer extends Component {
 const mapStateToProps = state => ({
   allLocations: state.locations.data,
   determinedLocations: determinedLocationsSelector(state),
-  titles: state.titles.titleStrings,
 });
 
 const mapDispatchToProps = {

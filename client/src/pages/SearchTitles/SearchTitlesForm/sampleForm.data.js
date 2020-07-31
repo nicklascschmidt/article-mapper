@@ -2,7 +2,7 @@
 export const sampleReducerTitles = [
   "coit tower",
   "1256 page st sf",
-  "streettaco sf",
+  // "streettaco sf",
   // "183 eureka st sf",
   // "aburaya oakland",
   // "san francisco botanical garden",

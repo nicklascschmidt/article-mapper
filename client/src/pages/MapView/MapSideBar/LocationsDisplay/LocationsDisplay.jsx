@@ -18,7 +18,7 @@ class ConfirmTitlesForm extends Component {
     
     return Object.keys(determinedLocations).map((key, idx) => (
       <LocationListing
-        key={`LocationsDisplay-listing-${idx}`}
+        key={`LocationsDisplay-listing-${key}`}
         locationData={determinedLocations[key]}
       />
     ));
