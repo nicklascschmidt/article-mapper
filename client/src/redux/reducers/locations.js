@@ -1,5 +1,6 @@
 import * as T from '../actions/actionTypes';
 
+// Data Structure
 // {
 //   data: {
 //     0: {

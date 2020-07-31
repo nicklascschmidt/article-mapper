@@ -16,7 +16,7 @@ class MapView extends Component {
         <MapSideBar />
         <MapContainer />
       </Container>
-    )
+    );
   }
 }
 

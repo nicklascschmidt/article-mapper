@@ -57,29 +57,20 @@ class SearchTitlesForm extends Component {
   }
 
   /**
-   * Fetches scraped data from a user-provided URL
-   * URL is encoded to send to server (else error bc no https etc. passed in URL)
-   * 
-   * TODO:
-   * When response comes back, print out the array into a list of inputs
-   *    ask if the list looks good to the user OR change inputs manually if not
-   *    use inputs to generate map view!!!!
+   * @summary Fetches scraped data from a user-provided URL
+   *  - URL is encoded to send to server (else error bc no https etc. passed in URL)
+   *  - Update titles reducer, then send user to /confirm page
    */
   handleSubmit = async (e) => {
     e.preventDefault();
-
     const { history, overwriteTitles } = this.props;
 
     try {
-      // TODO: testing, revert
-      // const { data } = await this.getScrapedSiteData();
-      // console.log('data', data);
-      // const { titles } = data;
+      const response = await this.getScrapedSiteData();
+      const titles = _.get(response, 'data.titles', []);
 
-      const titles = sampleTitlesResponse;
-      console.log('titles', titles);
+      // const titles = sampleTitlesResponse; // for testing
       
-
       overwriteTitles(titles);
       
       history.push('/confirm');
@@ -90,13 +81,7 @@ class SearchTitlesForm extends Component {
 
   getScrapedSiteData = () => {
     const { url, firstTitleText, elType, numOfTitles } = this.state;
-
     const encodedUrl = encodeURIComponent(url);
-
-    // await fetch(`/scrape/${encodedUrl}`)
-    // .then(resp => resp.json())
-    // .then(resp => resp.text())
-
     return axios.get(`/scrape/${encodedUrl}/${firstTitleText}/${elType}/${numOfTitles}`)
   }
 

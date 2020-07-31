@@ -170,7 +170,6 @@ const scrapeArticleHtml = (html, params) => {
   
   returnData.titles = textListWithoutIncrements;
 
-  // return JSON.stringify(returnData);
   return returnData;
 }
 

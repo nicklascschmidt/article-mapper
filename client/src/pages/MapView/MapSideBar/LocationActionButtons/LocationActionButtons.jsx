@@ -27,9 +27,6 @@ const StyledButton = styled.button`
   }};
 `;
 
-/** TODO:
- * add event listener for ESC key click --> clear activeAction if clicked
- */
 class LocationActionButtons extends Component {
   componentWillUnmount() {
     const { overwriteActiveAction } = this.props;

@@ -9,7 +9,6 @@ const prepareLocationRespForReducer = (userSearchTerm, locationResp, key) => {
   const newLocation = (locationArr.length === 1)
     ? {
       status: 'determined',
-      userSearchTerm,
       ...locationArr[0],
     } : {
       status: 'undetermined',
@@ -18,6 +17,7 @@ const prepareLocationRespForReducer = (userSearchTerm, locationResp, key) => {
 
   return {
     _id,
+    userSearchTerm,
     ...newLocation,
   };
 }
