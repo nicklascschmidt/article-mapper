@@ -96,6 +96,7 @@ class Map extends Component {
           ref={this.mapRef}
           onPopupClose={this.handlePopupClose}
           onPopupOpen={this.handlePopupOpen}
+          dragging={false}
         >
           <TileLayer
             url={`https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}?access_token=${process.env.REACT_APP_API_KEY_MAPBOX}`}
