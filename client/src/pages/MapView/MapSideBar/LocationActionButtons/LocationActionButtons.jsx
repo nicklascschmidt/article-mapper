@@ -42,11 +42,18 @@ class LocationActionButtons extends Component {
       overwriteActiveAction(name);
     }
   }
+
+  /** binding - only fires when focused (i.e. action button is selected) */
+  handleKeyDown = (e) => {
+    console.log('handleKeyDown, e.key: ', e.key);
+    const { clearActiveAction } = this.props;
+    if (e.key === 'Escape') clearActiveAction();
+  }
   
   render() {
     const { activeAction } = this.props;
     return (
-      <Container>
+      <Container onKeyDown={this.handleKeyDown}>
         <StyledButton
           type='button'
           name='add'
