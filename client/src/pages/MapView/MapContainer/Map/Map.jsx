@@ -3,9 +3,11 @@ import _ from 'lodash';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 
-import { Map as LeafletMap, TileLayer, Marker, Popup } from 'react-leaflet';
+import { Map as LeafletMap, TileLayer } from 'react-leaflet';
+import MapMarker from '../MapComponents/MapMarker.jsx';
 
 import { locationBoundsSelector, determinedLocationsSelector } from '../../../../redux/selectors';
+import { overwriteOpenMarkerId } from '../../../../redux/actions/index';
 
 
 const Container = styled.div``;
@@ -55,13 +57,7 @@ class Map extends Component {
         types, userSearchTerm,
       } = determinedLocations[key];
       
-      return (
-        <Marker key={`LeafletMap-marker-${place_id}`} position={[lat, lng]}>
-          <Popup>
-            {userSearchTerm} <br /> {formatted_address}
-          </Popup>
-        </Marker>
-      );
+      return <MapMarker key={`LeafletMap-marker-${place_id}`} location={determinedLocations[key]} />;
     });
   }
 
@@ -77,6 +73,18 @@ class Map extends Component {
     }
   }
 
+  /** Manually controls which popup is open in reducer.interactions.openMarkerId */
+  handlePopupClose = (e) => {
+    const { overwriteOpenMarkerId } = this.props;
+    overwriteOpenMarkerId('');
+  }
+
+  handlePopupOpen = (e) => {
+    const { overwriteOpenMarkerId } = this.props;
+    const locationId = _.get(e, 'popup.options.locationId', '');
+    overwriteOpenMarkerId(locationId);
+  }
+
   render() {
     const { currentLocation, zoom } = this.state;
 
@@ -86,6 +94,8 @@ class Map extends Component {
           center={currentLocation}
           zoom={zoom}
           ref={this.mapRef}
+          onPopupClose={this.handlePopupClose}
+          onPopupOpen={this.handlePopupOpen}
         >
           <TileLayer
             url={`https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}?access_token=${process.env.REACT_APP_API_KEY_MAPBOX}`}
@@ -105,7 +115,9 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  overwriteOpenMarkerId,
+};
 
 export default connect(
   mapStateToProps,
