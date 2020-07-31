@@ -7,7 +7,7 @@ const Input = styled.input`
 
 const LabelInputPair = ({
   type = 'text', name, value, labelText, onChange, customStyle,
-  noColon = false, noLabel = false,
+  noColon = false, noLabel = false, onKeyDown = () => {},
 }) => {
   const id = `${name}Input`;
   return (
@@ -22,6 +22,7 @@ const LabelInputPair = ({
         value={value}
         onChange={onChange}
         customStyle={customStyle}
+        onKeyDown={onKeyDown}
       />
     </Fragment>
   )

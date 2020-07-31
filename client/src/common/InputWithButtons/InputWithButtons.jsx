@@ -27,6 +27,19 @@ const InputWithButtons = (props) => {
     noLabel = false,
   } = props;
 
+  const handleKeyDown = (e) => {
+    switch (e.key) {
+      case 'Enter':
+        if (!noSubmit) onSubmit(e);
+        break;
+      case 'Escape':
+        if (!noCancel) onCancel(e);
+        break;
+      default:
+        break;
+    }
+  }
+
   return (
     <Container title={title}>
       <LabelInputPair
@@ -37,6 +50,7 @@ const InputWithButtons = (props) => {
         onChange={onChange}
         noColon={noColon}
         noLabel={noLabel}
+        onKeyDown={handleKeyDown}
       />
       <div>
         {noSubmit ? null : (
