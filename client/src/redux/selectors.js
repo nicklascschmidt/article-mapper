@@ -1,7 +1,13 @@
 import _ from 'lodash';
+import { createSelector } from 'reselect'
 
-import { parseLocationBody } from './parsers/index';
+import {
+  parseDeterminedLocations,
+  parseUndeterminedLocations,
+} from './parsers/index';
 
+
+/** HELPERS */
 
 const getLocationsByType = (type, locations) => {  
   return Object.keys(locations).reduce((acc, key, idx) => {
@@ -9,49 +15,56 @@ const getLocationsByType = (type, locations) => {
     if (location.status === type) acc[key] = location;
     return acc;
   }, {});
-}
-
-/**
- * @summary - accepts locations from reducer and returns parsed locations (flat-ish)
- * @param {object{}} locations - obj of location objs from the reducer
- * @returns {object{}} - obj of location objs
- */
-export const getDeterminedLocations = (locations) => {
-  const determinedLocations = getLocationsByType('determined', locations);
-
-  return Object.keys(determinedLocations).reduce((acc, key, idx) => {
-    acc[key] = parseLocationBody(determinedLocations[key]);
-    return acc;
-  }, {});
-}
-
-export const getUndeterminedLocations = (locations) => {
-  const undeterminedLocations = getLocationsByType('undetermined', locations);
-
-  return Object.keys(undeterminedLocations).reduce((acc, key, idx) => {
-    const location = undeterminedLocations[key];
-    const parsedLocations = location.possibleLocations.map((location => parseLocationBody(location)));
-    acc[key] = {
-      ...location,
-      possibleLocations: parsedLocations,
-    };
-    return acc;
-  }, {});
 };
-
 
 /**
  * @summary - accepts locations from reducer and returns array of [lat, lng] bounds for each location
  *          - used for getting the map view zoom
- * @param {object{}} determinedLocations - obj of location objs from the reducer
+ * @param {object{}} locations - obj of location objs from the reducer
  * @returns {array[]} - array of [lat, lng] arrays
 */
-export const getLocationBounds = (determinedLocations) => {
-  return Object.keys(determinedLocations).map((key, idx) => {
-    const { lat, lng } = determinedLocations[key];
+const getLocationBounds = (locations) => {
+  return Object.keys(locations).map((key, idx) => {
+    const { lat, lng } = locations[key];
     return [lat, lng];
   });
 };
+
+const getNextIdFromLocations = (locations) => {
+  const ids = Object.keys(locations).map(key => parseInt(locations[key]._id));
+  const nextIndex = _.isEmpty(ids) ? 0 : Math.max(...ids) + 1;
+  return nextIndex.toString();
+};
+
+/** SELECTORS */
+
+const locationsSelector = state => state.locations.data;
+
+export const determinedLocationsSelector = createSelector(
+  locationsSelector,
+  locations => getLocationsByType('determined', locations),
+  unparsedLocations => parseDeterminedLocations(unparsedLocations)
+);
+
+export const undeterminedLocationsSelector = createSelector(
+  locationsSelector,
+  locations => getLocationsByType('undetermined', locations),
+  unparsedLocations => parseUndeterminedLocations(unparsedLocations)
+);
+
+export const locationBoundsSelector = createSelector(
+  determinedLocationsSelector,
+  locations => getLocationBounds(locations)
+);
+
+export const nextIdSelector = createSelector(
+  locationsSelector,
+  locations => getNextIdFromLocations(locations)
+);
+
+
+
+/** UNUSED */
 
 /**
  * TODO:
