@@ -14,6 +14,9 @@ const BackButton = styled.button`
   margin: .5rem;
 `;
 
+/**TODO:
+ * add event listener for ESC key and clearActiveAction() if pressed
+ */
 class MapSideBar extends Component {
   render() {
     return (
