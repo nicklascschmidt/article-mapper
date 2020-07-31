@@ -7,6 +7,12 @@ const Container = styled.footer`
   justify-content: space-between;
 
   padding: 0 1rem;
+  background-color: var(--blue-independence);
+  color: var(--white-plain);
+
+  a {
+    color: var(--white-plain);
+  }
 `;
 
 class Footer extends Component {

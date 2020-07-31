@@ -6,7 +6,8 @@ const Container = styled.header`
   align-items: center;
   justify-content: center;
 
-  background-color: pink;
+  background-color: var(--blue-independence);
+  color: var(--white-plain);
 `;
 
 class Header extends Component {

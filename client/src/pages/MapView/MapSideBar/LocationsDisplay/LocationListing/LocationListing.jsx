@@ -19,9 +19,12 @@ const Container = styled.div`
   padding: .5rem;
   margin-bottom: 4px;
 
+  background-color: var(--white-plain);
+  color: var(--blue-space-cadet);
+
   opacity: ${props => props.activeAction
     && props.activeAction !== 'add'
-    && '.5'};
+    && '.8'};
 
   &:hover {
     cursor: pointer;

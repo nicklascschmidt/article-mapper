@@ -8,6 +8,7 @@ import LocationActionButtons from './LocationActionButtons/LocationActionButtons
 const Container = styled.div`
   display: grid;
   grid-template-rows: min-content 1fr min-content;
+  background-color: var(--silver-plain);
 `;
 
 const BackButton = styled.button`
