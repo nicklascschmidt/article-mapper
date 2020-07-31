@@ -3,10 +3,11 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 import LocationsDisplay from './LocationsDisplay/LocationsDisplay.jsx';
+import LocationActionButtons from './LocationActionButtons/LocationActionButtons.jsx'
 
 const Container = styled.div`
   display: grid;
-  grid-template-rows: min-content 1fr;
+  grid-template-rows: min-content 1fr min-content;
 `;
 
 const BackButton = styled.button`
@@ -22,6 +23,8 @@ class MapSideBar extends Component {
         </Link>
 
         <LocationsDisplay />
+
+        <LocationActionButtons />
       </Container>
     )
   }
