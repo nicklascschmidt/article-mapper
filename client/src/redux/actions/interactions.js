@@ -9,3 +9,5 @@ const overwriteInteractionsField = (field, data) => ({
 });
 
 export const overwriteActiveAction = (data) => overwriteInteractionsField('activeAction', data);
+
+export const overwriteOpenMarkerId = (data) => overwriteInteractionsField('openMarkerId', data);

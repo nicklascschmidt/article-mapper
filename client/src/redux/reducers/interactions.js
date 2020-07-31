@@ -3,6 +3,7 @@ import * as T from '../actions/actionTypes';
 
 const initialState = {
   activeAction: '',
+  openMarkerId: '',
 };
 
 export default (state = initialState, action) => {
