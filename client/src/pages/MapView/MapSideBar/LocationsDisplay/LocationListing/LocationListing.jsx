@@ -5,19 +5,26 @@ import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { populateSingleLocationFromTitle } from '../../../../../redux/thunks';
-import { overwriteActiveAction, removeLocationByKey } from '../../../../../redux/actions/index';
+import { overwriteActiveAction, removeLocationByKey, overwriteOpenMarkerId } from '../../../../../redux/actions/index';
 
 import InputWithButtons from '../../../../../common/InputWithButtons/InputWithButtons.jsx';
 
 
+/** Use styled-components `css` if ejected
+ * https://github.com/Microsoft/typescript-styled-plugin#configuration
+*/
 const Container = styled.div`
   border: 1px solid blue;
   border-radius: .5rem;
   padding: .5rem;
   margin-bottom: 4px;
 
+  opacity: ${props => props.activeAction
+    && props.activeAction !== 'add'
+    && '.5'};
+
   &:hover {
-    cursor: ${props => props.activeAction && 'pointer'};
+    cursor: pointer;
     background-color: ${props => {
       switch (props.activeAction) {
         case 'edit':
@@ -36,6 +43,10 @@ const TextListingContainer = styled.div`
   justify-content: space-between;
 `;
 
+/**TODO:
+ * change `locationKey` to `locationId`
+ * change overwriteActiveAction('') to clearActiveAction()
+*/
 class LocationListing extends Component {
   constructor(props) {
     super(props);
@@ -120,7 +131,10 @@ class LocationListing extends Component {
 
   handleClick = (e) => {
     const { locationKey } = this.state;
-    const { activeAction, overwriteActiveAction } = this.props;
+    const {
+      activeAction, overwriteActiveAction,
+      openMarkerId, overwriteOpenMarkerId,
+    } = this.props;
     switch (activeAction) {
       case 'edit':
         this.handleEditClick(e);
@@ -131,6 +145,7 @@ class LocationListing extends Component {
         overwriteActiveAction('');
         break;
       default:
+        if (openMarkerId !== locationKey) overwriteOpenMarkerId(locationKey);
         break;
     }
   }
@@ -154,12 +169,14 @@ class LocationListing extends Component {
 
 const mapStateToProps = state => ({
   activeAction: state.interactions.activeAction,
+  openMarkerId: state.interactions.openMarkerId,
 });
 
 const mapDispatchToProps = {
   populateSingleLocationFromTitle,
   overwriteActiveAction,
   removeLocationByKey,
+  overwriteOpenMarkerId,
 };
 
 export default withRouter(connect(
