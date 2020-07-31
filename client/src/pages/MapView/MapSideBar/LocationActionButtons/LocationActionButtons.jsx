@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import { overwriteActiveAction } from '../../../../redux/actions/index';
+import { overwriteActiveAction, clearActiveAction } from '../../../../redux/actions/index';
 
 const Container = styled.div`
   height: 4rem;
@@ -29,15 +29,15 @@ const StyledButton = styled.button`
 
 class LocationActionButtons extends Component {
   componentWillUnmount() {
-    const { overwriteActiveAction } = this.props;
-    overwriteActiveAction('');
+    const { clearActiveAction } = this.props;
+    clearActiveAction();
   }
 
   handleClick = (e) => {
-    const { overwriteActiveAction, activeAction } = this.props;
+    const { activeAction, clearActiveAction, overwriteActiveAction } = this.props;
     const { name } = e.target;
     if (activeAction === name) {
-      overwriteActiveAction('');
+      clearActiveAction();
     } else {
       overwriteActiveAction(name);
     }
@@ -76,6 +76,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   overwriteActiveAction,
+  clearActiveAction,
 };
 
 export default withRouter(connect(

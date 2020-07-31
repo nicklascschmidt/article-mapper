@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { populateSingleLocationFromTitle } from '../../../../../redux/thunks';
-import { overwriteActiveAction, removeLocationByKey, overwriteOpenMarkerId } from '../../../../../redux/actions/index';
+import { clearActiveAction, removeLocationByKey, overwriteOpenMarkerId } from '../../../../../redux/actions/index';
 
 import InputWithButtons from '../../../../../common/InputWithButtons/InputWithButtons.jsx';
 
@@ -43,21 +43,17 @@ const TextListingContainer = styled.div`
   justify-content: space-between;
 `;
 
-/**TODO:
- * change `locationKey` to `locationId`
- * change overwriteActiveAction('') to clearActiveAction()
-*/
 class LocationListing extends Component {
   constructor(props) {
     super(props);
     
-    const locationKey = _.get(this.props, 'locationData._id', '');
+    const locationId = _.get(this.props, 'locationData._id', '');
     const isAddingNewLocation = _.get(this.props, 'isAddingNewLocation', false);
 
     this.state = {
       isEditing: isAddingNewLocation || false,
       inputValue: '',
-      locationKey,
+      locationId,
     };
   }
 
@@ -85,18 +81,18 @@ class LocationListing extends Component {
   }
 
   handleRemove = (e, key) => {
-    const { locationKey } = this.state;
+    const { locationId } = this.state;
     const { removeLocationByKey } = this.props;
-    removeLocationByKey(locationKey);
+    removeLocationByKey(locationId);
   }
 
   handleSubmit = (e) => {
-    const { inputValue, locationKey } = this.state;
-    const { populateSingleLocationFromTitle, overwriteActiveAction } = this.props;
+    const { inputValue, locationId } = this.state;
+    const { populateSingleLocationFromTitle, clearActiveAction } = this.props;
 
-    populateSingleLocationFromTitle(inputValue, locationKey);
+    populateSingleLocationFromTitle(inputValue, locationId);
 
-    overwriteActiveAction('');
+    clearActiveAction(clearActiveAction);
     this.setState({ isEditing: false });
   }
 
@@ -111,12 +107,12 @@ class LocationListing extends Component {
   }
 
   displayEditableListing = () => {
-    const { locationKey, inputValue } = this.state;
+    const { locationId, inputValue } = this.state;
     return (
       <InputWithButtons
         name='inputValue'
         value={inputValue}
-        labelText={`${parseInt(locationKey)+1}. `}
+        labelText={`${parseInt(locationId)+1}. `}
         onChange={this.handleChange}
         onSubmit={this.handleSubmit}
         onCancel={this.handleCancel}
@@ -130,22 +126,22 @@ class LocationListing extends Component {
   }
 
   handleClick = (e) => {
-    const { locationKey } = this.state;
+    const { locationId } = this.state;
     const {
-      activeAction, overwriteActiveAction,
+      activeAction, clearActiveAction,
       openMarkerId, overwriteOpenMarkerId,
     } = this.props;
     switch (activeAction) {
       case 'edit':
         this.handleEditClick(e);
-        overwriteActiveAction('');
+        clearActiveAction();
         break;
       case 'remove':
-        this.handleRemove(e, locationKey);
-        overwriteActiveAction('');
+        this.handleRemove(e, locationId);
+        clearActiveAction();
         break;
       default:
-        if (openMarkerId !== locationKey) overwriteOpenMarkerId(locationKey);
+        if (openMarkerId !== locationId) overwriteOpenMarkerId(locationId);
         break;
     }
   }
@@ -174,7 +170,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   populateSingleLocationFromTitle,
-  overwriteActiveAction,
+  clearActiveAction,
   removeLocationByKey,
   overwriteOpenMarkerId,
 };
