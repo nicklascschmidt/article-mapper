@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 import LabelInputPair from '../../../common/LabelInputPair/LabelInputPair.jsx';
 
-import { overwriteTitles } from '../../../redux/actions';
+import { overwriteTitles } from '../../../redux/actions/index';
 
 const StyledForm = styled.form`
   padding: 1rem;

@@ -9,7 +9,7 @@ import sampleData, { sampleTitlesResponse } from './sampleForm.data';
 import formElementsData from './SearchTitlesForm.data';
 import LabelInputPair from '../../../common/LabelInputPair/LabelInputPair.jsx';
 
-import { overwriteTitles } from '../../../redux/actions';
+import { overwriteTitles } from '../../../redux/actions/index';
 
 const StyledForm = styled.form`
   max-width: min-content;
