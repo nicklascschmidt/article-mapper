@@ -5,8 +5,7 @@ import { connect } from 'react-redux';
 
 import { Map as LeafletMap, TileLayer, Marker, Popup } from 'react-leaflet';
 
-import { getLocationBounds, getDeterminedLocations } from '../../../../redux/selectors';
-import { updateLocationStatusByKey } from '../../../../redux/actions';
+import { locationBoundsSelector, determinedLocationsSelector } from '../../../../redux/selectors';
 
 
 const Container = styled.div``;
@@ -18,6 +17,8 @@ const StyledLeafletMap = styled(LeafletMap)`
 
 /** TODO:
  * come up w a flow if multiple results are found
+ * impl setMaxBounds w the max lat long
+ * https://leafletjs.com/reference-1.6.0.html#map-setmaxbounds
  */
 class Map extends Component {
   constructor(props) {
@@ -32,31 +33,27 @@ class Map extends Component {
   }
 
   componentDidMount() {
-    console.log('mounted');
     this.adjustBounds();
   }
 
   componentDidUpdate(prevProps) {
-    const { determinedLocations } = this.props;
-    const { determinedLocations: previousDeterminedLocations } = prevProps;
+    const { latLngBounds } = this.props;
+    const {
+      latLngBounds: prevLatLngBounds,
+    } = prevProps;
 
-    console.log('Map updating?', Object.keys(determinedLocations).length, Object.keys(previousDeterminedLocations).length);
-
-    if (Object.keys(determinedLocations).length !== Object.keys(previousDeterminedLocations).length) {
-      console.log('adjusting bounds');
+    if (latLngBounds.toString() !== prevLatLngBounds.toString()) {
       this.adjustBounds();
     }
   }
 
   displayMarkers = () => {
-    const { determinedLocations, updateLocationStatusByKey } = this.props;
+    const { determinedLocations } = this.props;
     return Object.keys(determinedLocations).map((key, idx) => {
       const {
         formatted_address, lat, lng, name, place_id,
         types, userSearchTerm,
       } = determinedLocations[key];
-
-      // updateLocationStatusByKey(idx, 'mapped');
       
       return (
         <Marker key={`LeafletMap-marker-${place_id}`} position={[lat, lng]}>
@@ -82,14 +79,6 @@ class Map extends Component {
 
   render() {
     const { currentLocation, zoom } = this.state;
-    const { lat, lng } = currentLocation;
-    
-    const position = [lat, lng];
-
-    /**
-     * impl setMaxBounds w the max lat long
-     * https://leafletjs.com/reference-1.6.0.html#map-setmaxbounds
-    */
 
     return (
       <Container>
@@ -110,17 +99,13 @@ class Map extends Component {
 }
 
 const mapStateToProps = state => {
-  const determinedLocations = getDeterminedLocations(state.locations.data);
-  
   return {
-    determinedLocations,
-    latLngBounds: getLocationBounds(determinedLocations),
+    determinedLocations: determinedLocationsSelector(state),
+    latLngBounds: locationBoundsSelector(state),
   };
 };
 
-const mapDispatchToProps = {
-  updateLocationStatusByKey,
-};
+const mapDispatchToProps = {};
 
 export default connect(
   mapStateToProps,
