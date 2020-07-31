@@ -1,4 +1,4 @@
-import * as T from '../actionTypes';
+import * as T from '../actions/actionTypes';
 
 // {
 //   data: {
@@ -25,14 +25,35 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case T.UPDATE_LOCATION_BY_KEY: {
-      const { key, location } = action.payload;
+    case T.OVERWRITE_LOCATIONS_FIELD: {
+      const { field, value } = action.payload;
+      console.log('setting', field, 'to', value);
+      
+      return {
+        ...state,
+        [field]: value,
+      };
+    }
+
+    case T.REMOVE_LOCATION_BY_KEY: {
+      const { key } = action.payload;
+      const newData = state.data;
+      delete newData[key];
+      
+      return {
+        ...state,
+        data: newData,
+      };
+    }
+    
+    case T.OVERWRITE_LOCATION_BY_KEY: {
+      const { key, data } = action.payload;
 
       return {
         ...state,
         data: {
           ...state.data,
-          [key]: location,
+          [key]: data,
         },
       };
     }
@@ -58,18 +79,11 @@ export default (state = initialState, action) => {
 
       return {
         ...state,
-        [nextIndex]: action.payload,
+        data: {
+          ...state.data,
+          [nextIndex]: action.payload,
+        },
       }
-    }
-
-    case T.OVERWRITE_LOCATIONS_FIELD: {
-      const { field, value } = action.payload;
-      console.log('setting', field, 'to', value);
-      
-      return {
-        ...state,
-        [field]: value,
-      };
     }
 
     default:

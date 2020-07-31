@@ -10,6 +10,13 @@ export const overwriteLocationByKey = (key, data) => ({
   },
 });
 
+export const removeLocationByKey = (key) => ({
+  type: T.REMOVE_LOCATION_BY_KEY,
+  payload: {
+    key,
+  },
+});
+
 export const overwriteLocationsField = (field, data) => ({
   type: T.OVERWRITE_LOCATIONS_FIELD,
   payload: {
