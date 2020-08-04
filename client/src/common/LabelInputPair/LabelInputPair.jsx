@@ -7,7 +7,7 @@ const Input = styled.input`
 
 const LabelInputPair = ({
   type = 'text', name, value, labelText, onChange, customStyle,
-  noColon = false, noLabel = false, onKeyDown = () => {},
+  noColon = false, noLabel = false, onKeyDown = () => {}, inputRef,
 }) => {
   const id = `${name}Input`;
   return (
@@ -16,6 +16,7 @@ const LabelInputPair = ({
         <label htmlFor={id}>{`${labelText}${noColon ? '' : ':'}`}</label>
       )}
       <Input
+        ref={inputRef}
         id={id}
         name={name}
         type={type}
