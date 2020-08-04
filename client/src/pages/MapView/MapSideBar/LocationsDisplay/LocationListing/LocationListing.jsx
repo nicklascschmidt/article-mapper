@@ -50,21 +50,17 @@ class LocationListing extends Component {
   constructor(props) {
     super(props);
     
-    const locationId = _.get(this.props, 'locationData._id', '');
     const isAddingNewLocation = _.get(this.props, 'isAddingNewLocation', false);
+
+    this.locationId = _.get(this.props, 'locationData._id', '');
 
     this.state = {
       isEditing: isAddingNewLocation || false,
       inputValue: '',
-      locationId,
     };
   }
 
   componentDidMount() {
-    // const {
-    //   formatted_address, lat, lng, name, place_id, types, userSearchTerm,
-    // } = locationData;
-
     const { isAddingNewLocation } = this.props;
 
     if (!isAddingNewLocation) {
@@ -80,23 +76,23 @@ class LocationListing extends Component {
   }
 
   handleCancel = (e) => {
+    const { clearActiveAction } = this.props;
+    clearActiveAction();
     this.setState({ isEditing: false });
   }
 
   handleRemove = (e, key) => {
-    const { locationId } = this.state;
     const { removeLocationByKey } = this.props;
-    removeLocationByKey(locationId);
+    removeLocationByKey(this.locationId);
   }
 
   handleSubmit = (e) => {
-    const { inputValue, locationId } = this.state;
-    const { populateSingleLocationFromTitle, clearActiveAction } = this.props;
+    const { inputValue } = this.state;
+    const { populateSingleLocationFromTitle } = this.props;
 
-    populateSingleLocationFromTitle(inputValue, locationId);
+    populateSingleLocationFromTitle(inputValue, this.locationId);
 
-    clearActiveAction(clearActiveAction);
-    this.setState({ isEditing: false });
+    this.handleCancel();
   }
 
   displayTextListing = () => {
@@ -110,12 +106,12 @@ class LocationListing extends Component {
   }
 
   displayEditableListing = () => {
-    const { locationId, inputValue } = this.state;
+    const { inputValue } = this.state;
     return (
       <InputWithButtons
         name='inputValue'
         value={inputValue}
-        labelText={`${parseInt(locationId)+1}. `}
+        labelText={`${parseInt(this.locationId)+1}. `}
         onChange={this.handleChange}
         onSubmit={this.handleSubmit}
         onCancel={this.handleCancel}
@@ -129,7 +125,6 @@ class LocationListing extends Component {
   }
 
   handleClick = (e) => {
-    const { locationId } = this.state;
     const {
       activeAction, clearActiveAction,
       openMarkerId, overwriteOpenMarkerId,
@@ -140,11 +135,11 @@ class LocationListing extends Component {
         clearActiveAction();
         break;
       case 'remove':
-        this.handleRemove(e, locationId);
+        this.handleRemove(e, this.locationId);
         clearActiveAction();
         break;
       default:
-        if (openMarkerId !== locationId) overwriteOpenMarkerId(locationId);
+        if (openMarkerId !== this.locationId) overwriteOpenMarkerId(this.locationId);
         break;
     }
   }
