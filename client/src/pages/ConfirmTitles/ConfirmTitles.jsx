@@ -1,22 +1,16 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 
 import ConfirmTitlesForm from './ConfirmTitlesForm/ConfirmTitlesForm.jsx';
+import BackButton from '../../common/BackButton/BackButton.jsx';
 
 const Container = styled.div``;
-
-const BackButton = styled.button`
-  margin: .5rem;
-`;
 
 class ConfirmTitles extends Component {
   render() {
     return (
       <Container>
-        <Link to='/search'>
-          <BackButton>{`<-- Back to Search`}</BackButton>
-        </Link>
+        <BackButton toPath='/search' titleText='Back to Search Page' />
 
         <ConfirmTitlesForm />
       </Container>
