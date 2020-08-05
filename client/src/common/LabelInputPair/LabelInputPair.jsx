@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import styled from 'styled-components';
 
-const Input = styled.input`
+const StyledInput = styled.input`
   ${props => props.customStyle};
 `;
 
@@ -15,7 +15,7 @@ const LabelInputPair = ({
       {noLabel ? null : (
         <label htmlFor={id}>{`${labelText}${noColon ? '' : ':'}`}</label>
       )}
-      <Input
+      <StyledInput
         ref={inputRef}
         id={id}
         name={name}

@@ -6,8 +6,8 @@ const Container = styled.header`
   align-items: center;
   justify-content: center;
 
-  background-color: var(--blue-independence);
-  color: var(--white-plain);
+  background-color: var(--color-primary);
+  color: var(--color-white);
 `;
 
 class Header extends Component {
@@ -16,7 +16,7 @@ class Header extends Component {
       <Container>
         <h1>Article Mapper</h1>
       </Container>
-    )
+    );
   }
 }
 

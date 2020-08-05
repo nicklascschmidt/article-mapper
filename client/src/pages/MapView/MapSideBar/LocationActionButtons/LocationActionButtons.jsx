@@ -9,18 +9,20 @@ const Container = styled.div`
   height: 4rem;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  grid-column-gap: 4px;
+  padding: 4px;
 `;
 
 const StyledButton = styled.button`
+  opacity: ${props => props.isInactive && '.4'};
   background-color: ${props => {
-    if (props.isInactive) return 'grey';
     switch (props.name) {
       case 'add':
-        return 'lightgreen';
+        return 'var(--color-green-add)';
       case 'edit':
-        return 'lightblue';
+        return 'var(--color-blue-edit)';
       case 'remove':
-        return 'red';
+        return 'var(--color-red-remove)';
       default:
         break;
     }

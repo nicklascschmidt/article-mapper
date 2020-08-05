@@ -4,15 +4,21 @@ import styled from 'styled-components';
 import LabelInputPair from '../LabelInputPair/LabelInputPair.jsx';
 
 const Container = styled.div`
+  display: grid;
+  grid-template-columns: 1fr min-content;
+  grid-gap: 4px;
+`;
+
+const ButtonContainer = styled.div`
   display: flex;
-  justify-content: space-between;
+  grid-gap: 2px;
 `;
 
 const AcceptButton = styled.button`
-  background-color: green;
+  background-color: var(--color-green-add);
 `;
 const DeleteButton = styled.button`
-  background-color: red;
+  background-color: var(--color-red-remove);
 `;
 
 class InputWithButtons extends Component {
@@ -64,14 +70,14 @@ class InputWithButtons extends Component {
           noLabel={noLabel}
           onKeyDown={this.handleKeyDown}
         />
-        <div>
+        <ButtonContainer>
           {noSubmit ? null : (
-            <AcceptButton type='button' onClick={onSubmit}>√</AcceptButton>
+            <AcceptButton title='submit' type='button' onClick={onSubmit}>√</AcceptButton>
           )}
           {noCancel ? null : (
-            <DeleteButton type='button' onClick={onCancel}>X</DeleteButton>
+            <DeleteButton title='cancel' type='button' onClick={onCancel}>X</DeleteButton>
           )}
-        </div>
+        </ButtonContainer>
       </Container>
     );
   }

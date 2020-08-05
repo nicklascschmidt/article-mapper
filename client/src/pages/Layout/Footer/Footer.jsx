@@ -7,11 +7,11 @@ const Container = styled.footer`
   justify-content: space-between;
 
   padding: 0 1rem;
-  background-color: var(--blue-independence);
-  color: var(--white-plain);
+  background-color: var(--color-primary);
+  color: var(--color-white);
 
   a {
-    color: var(--white-plain);
+    color: var(--color-white);
   }
 `;
 
@@ -28,7 +28,17 @@ class Footer extends Component {
             View on Github
           </a>
         </div>
-        <div>Built and Designed by Nicklas Chen Schmidt © 2020</div>
+        <div>
+          {`Built and Designed by `}
+          <a
+            href='http://www.nicklaschenschmidt.com/'
+            target='_blank'
+            rel='noopener noreferrer'
+          >
+            Nicklas Chen Schmidt
+          </a>
+          {` © 2020`}
+        </div>
       </Container>
     )
   }

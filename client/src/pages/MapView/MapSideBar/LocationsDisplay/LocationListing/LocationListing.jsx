@@ -14,13 +14,13 @@ import InputWithButtons from '../../../../../common/InputWithButtons/InputWithBu
  * https://github.com/Microsoft/typescript-styled-plugin#configuration
 */
 const Container = styled.div`
-  border: 1px solid blue;
-  border-radius: .5rem;
   padding: .5rem;
   margin-bottom: 4px;
+  border-radius: .5rem;
 
-  background-color: var(--white-plain);
-  color: var(--blue-space-cadet);
+  background-color: var(--color-primary);
+  color: var(--color-dark-grey);
+  box-shadow: 0px 2px 6px rgba(0,0,0,0.2);
 
   opacity: ${props => props.activeAction
     && props.activeAction !== 'add'
@@ -31,9 +31,9 @@ const Container = styled.div`
     background-color: ${props => {
       switch (props.activeAction) {
         case 'edit':
-          return 'lightblue';
+          return 'var(--color-blue-edit)';
         case 'remove':
-          return 'red';
+          return 'var(--color-red-remove)';
         default:
           return;
       }
@@ -44,6 +44,8 @@ const Container = styled.div`
 const TextListingContainer = styled.div`
   display: flex;
   justify-content: space-between;
+
+  color: var(--color-white);
 `;
 
 class LocationListing extends Component {
@@ -95,31 +97,6 @@ class LocationListing extends Component {
     this.handleCancel();
   }
 
-  displayTextListing = () => {
-    const { locationData } = this.props;
-    const { formatted_address, userSearchTerm } = locationData;
-    return (
-      <TextListingContainer>
-        <div title={formatted_address}>{ userSearchTerm }</div>
-      </TextListingContainer>
-    )
-  }
-
-  displayEditableListing = () => {
-    const { inputValue } = this.state;
-    return (
-      <InputWithButtons
-        name='inputValue'
-        value={inputValue}
-        labelText={`${parseInt(this.locationId)+1}. `}
-        onChange={this.handleChange}
-        onSubmit={this.handleSubmit}
-        onCancel={this.handleCancel}
-        noLabel
-      />
-    );
-  }
-
   handleEditClick = (e) => {
     this.setState({ isEditing: true });
   }
@@ -142,6 +119,31 @@ class LocationListing extends Component {
         if (openMarkerId !== this.locationId) overwriteOpenMarkerId(this.locationId);
         break;
     }
+  }
+
+  displayTextListing = () => {
+    const { locationData } = this.props;
+    const { formatted_address, userSearchTerm } = locationData;
+    return (
+      <TextListingContainer title={formatted_address}>
+        { userSearchTerm }
+      </TextListingContainer>
+    );
+  }
+
+  displayEditableListing = () => {
+    const { inputValue } = this.state;
+    return (
+      <InputWithButtons
+        name='inputValue'
+        value={inputValue}
+        labelText={`${parseInt(this.locationId)+1}. `}
+        onChange={this.handleChange}
+        onSubmit={this.handleSubmit}
+        onCancel={this.handleCancel}
+        noLabel
+      />
+    );
   }
 
   render() {

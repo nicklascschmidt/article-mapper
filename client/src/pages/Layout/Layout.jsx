@@ -6,7 +6,7 @@ import Footer from './Footer/Footer.jsx';
 import Routes from '../Routes/Routes.jsx';
 
 const Container = styled.div`
-  min-height: 100vh;
+  height: 100vh;
 
   header {
     height: 6vh;
