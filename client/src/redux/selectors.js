@@ -9,7 +9,7 @@ import {
 
 /** HELPERS */
 
-const getLocationsByType = (type, locations) => {  
+const getLocationsByType = (locations, type) => {  
   return Object.keys(locations).reduce((acc, key, idx) => {
     const location = locations[key];
     if (location.status === type) acc[key] = location;
@@ -40,15 +40,21 @@ const getNextIdFromLocations = (locations) => {
 
 const locationsSelector = state => state.locations.data;
 
+const locationByTypeSelector = (state, type) => {
+  const locations = locationsSelector(state);
+  return getLocationsByType(locations, type);
+};
+
+const selectDeterminedLocations = (state) => locationByTypeSelector(state, 'determined');
+const selectUndeterminedLocations = (state) => locationByTypeSelector(state, 'undetermined');
+
 export const determinedLocationsSelector = createSelector(
-  locationsSelector,
-  locations => getLocationsByType('determined', locations),
+  selectDeterminedLocations,
   unparsedLocations => parseDeterminedLocations(unparsedLocations)
 );
 
 export const undeterminedLocationsSelector = createSelector(
-  locationsSelector,
-  locations => getLocationsByType('undetermined', locations),
+  selectUndeterminedLocations,
   unparsedLocations => parseUndeterminedLocations(unparsedLocations)
 );
 
