@@ -52,12 +52,8 @@ class Map extends Component {
   displayMarkers = () => {
     const { determinedLocations } = this.props;
     return Object.keys(determinedLocations).map((key, idx) => {
-      const {
-        formatted_address, lat, lng, name, place_id,
-        types, userSearchTerm,
-      } = determinedLocations[key];
-      
-      return <MapMarker key={`LeafletMap-marker-${place_id}`} location={determinedLocations[key]} />;
+      const location = determinedLocations[key];
+      return <MapMarker key={`LeafletMap-marker-${location.place_id}`} location={location} />;
     });
   }
 

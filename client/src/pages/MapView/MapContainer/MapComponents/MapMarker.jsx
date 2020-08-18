@@ -4,6 +4,11 @@ import { Popup, Marker } from "react-leaflet";
 
 import { overwriteOpenMarkerId } from '../../../../redux/actions/index';
 
+
+/**
+ * TODO: add locationData fields to marker
+ * formatted_address, lat, lng, name, place_id, types, userSearchTerm,
+ */
 class MapMarker extends Component {
   constructor(props) {
     super(props);
