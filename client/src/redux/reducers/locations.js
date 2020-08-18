@@ -28,7 +28,6 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case T.OVERWRITE_LOCATIONS_FIELD: {
       const { field, value } = action.payload;
-      console.log('setting', field, 'to', value);
       
       return {
         ...state,
