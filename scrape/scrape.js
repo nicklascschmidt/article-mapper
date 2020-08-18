@@ -71,8 +71,6 @@ const grabFirstEl = ($, firstTitleText, elType) => {
  * @returns {object} - object with fields relevant to finding other titles
  */
 const getRelevantInfoFromEl = ($, el) => {
-  console.log('el', el);
-
   // const element = $(`${elType}[attr*=${commonAttribute}])`);
   // const element = $(`${elType}.${commonClass}`);
   const classes = el.attr('class');
@@ -93,13 +91,24 @@ const findSameClassEls = ($, elType, classes) => {
  * @returns {string[]} - list of titles the same length as numOfTitles
  */
 const getTitleTextList = (elTexts, numOfTitles, firstTitleHtmlText) => {
-  const firstTextStartList = elTexts.slice(elTexts.indexOf(firstTitleHtmlText));
+  const firstIndex = getIndexOfSubstringInArray(elTexts, firstTitleHtmlText);
+  const firstTextStartList = elTexts.slice(firstIndex);
   
   return firstTextStartList.slice(0, numOfTitles)
 }
 
+const getIndexOfSubstringInArray = (arr, substr) => {
+  return arr.findIndex(item => item.indexOf(substr) > -1)
+};
+
+const isSubstringInArray = (arr, substr) => {
+  return (getIndexOfSubstringInArray(arr, substr) > -1);
+}
+
 /**
- * @summary - if the list of texts includes the first title, then assume the list has the correct titles in it
+ * @summary - if the list of texts includes the first title,
+ *            or if the first title is within the first text,
+ *            then assume the list has the correct titles in it
  */
 const trimSimilarElList = ($, elList, firstTitleHtmlText, numOfTitles) => {
   let elTexts = [];
@@ -108,7 +117,7 @@ const trimSimilarElList = ($, elList, firstTitleHtmlText, numOfTitles) => {
     elTexts.push($(el).text().trim());
   });
 
-  if (elTexts.includes(firstTitleHtmlText)) {
+  if (isSubstringInArray(elTexts, firstTitleHtmlText)) {
     // list is probably correct, now trim to find the right ones
     return getTitleTextList(elTexts, numOfTitles, firstTitleHtmlText);
   }
@@ -127,8 +136,21 @@ const trimIncrementsFromText = (textList) => {
   });
 
   return (isIncrementing
-    ? textList.map((title) => title.split(' ').splice(1).join(' ').trim())
+    ? getTitlesWithoutIncrements(textList)
     : textList)
+}
+
+/**
+ * @summary - removes non-alpha chars (including digits) in the increment word
+ *          - some titles have the incrementer attached to the first word (eg. 2.San Francisco)
+ * @param {string[]} titles - titles scraped, 
+ */
+const getTitlesWithoutIncrements = (titles) => {
+  return titles.map((title) => {
+    const newTitle = title.split(' ');
+    newTitle[0] = newTitle[0].replace(/[^a-zA-Z\s]/g, '').trim();
+    return newTitle.join(' ').trim();
+  });
 }
 
 /**
