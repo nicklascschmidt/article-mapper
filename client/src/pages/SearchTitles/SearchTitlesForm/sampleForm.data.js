@@ -2,6 +2,7 @@
 export const sampleReducerTitles = [
   "coit tower",
   "1256 page st sf",
+  "ansel adams gallery",
   // "streettaco sf",
   // "183 eureka st sf",
   // "aburaya oakland",
@@ -27,6 +28,13 @@ export const sampleTitlesResponse = [
 ];
 
 export default [
+  {
+    name: 'Bay Area',
+    url: 'https://vacationidea.com/california/best-places-to-visit-in-the-bay-area.html',
+    firstTitleText: 'Sonoma County',
+    elType: 'h2',
+    numOfTitles: '25',
+  },
   {
     name: 'Maine',
     url: 'https://www.thecrazytourist.com/15-best-things-to-do-in-cape-elizabeth-maine/',

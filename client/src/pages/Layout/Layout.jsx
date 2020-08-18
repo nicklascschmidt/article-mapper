@@ -13,6 +13,7 @@ const Container = styled.div`
   }
   main {
     height: 90vh;
+    overflow: scroll;
   }
   footer {
     height: 4vh;

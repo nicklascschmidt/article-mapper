@@ -44,12 +44,12 @@ const getLocationData = async (titles) => {
 
 const getLocationDataPromises = (titles) => {
   return titles.map(async (title, idx) => {
-    return fetchLocationData(title, { padding: [20, 20] });
+    return fetchLocationData(title, { padding: [40, 40] });
   });
 };
 
 const fetchLocationData = (searchTerm) => {
-  const params = { fields: 'formatted_address,type' };
+  const params = { fields: 'formatted_address,type,photos' };
   return axios.get(`/api/client/find-place-from-text/${searchTerm}`, { params });
 };
 

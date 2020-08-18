@@ -10,6 +10,7 @@ import BackButton from '../../../common/BackButton/BackButton.jsx';
  * Only direct children get box-shadow
  */
 const Container = styled.div`
+  overflow: scroll;
   display: grid;
   grid-template-rows: min-content 1fr min-content;
   background-color: var(--color-white);

@@ -13,6 +13,7 @@ const parseLocationBody = (location) => {
     lng: _.get(location, 'geometry.location.lng', ''),
     viewport: _.get(location, 'viewport', ''),
     name: _.get(location, 'name', ''),
+    photo: _.get(location, 'photos[0]', ''),
     place_id: _.get(location, 'place_id', ''),
     types: _.get(location, 'types', []),
   };

@@ -5,6 +5,7 @@ import MapSideBar from './MapSideBar/MapSideBar.jsx';
 import MapContainer from './MapContainer/MapContainer.jsx';
 
 const Container = styled.div`
+  height: 100%;
   display: grid;
   grid-template-columns: 300px 1fr;
 `;
