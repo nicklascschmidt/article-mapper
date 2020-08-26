@@ -12,6 +12,15 @@ const fetchArticleData = ({ url, ...params }) => {
     .catch(err => console.log(err));
 }
 
+/** Use when debugging in node */
+// fetchArticleData({
+//   url: 'https://vacationidea.com/california/best-places-to-visit-in-the-bay-area.html',
+//   firstTitleText: 'Sonoma County',
+//   elType: 'h2',
+//   numOfTitles: '25',
+// });
+
+
 /** Helpful info for scraping:
  * how many elements we're looking for
  * what an incrementer looks like if any (i.e. '1. ', '1)', etc.)
@@ -20,19 +29,6 @@ const fetchArticleData = ({ url, ...params }) => {
  * what the text is for the first title
 */
 
-/**
- * @summary - creates a list of the possible terms we're looking for within the HTML
- *          - sometimes the HTML text doesn't exactly match what's copied from the site
- * @param {string} text - firstTitleText, which we'll manipulate to test other possible options
- * @returns {string[]} - all possible texts we're trying to match
- */
-const generatePossibleMatchList = (text) => {
-  const doubleSpaced = text.replace(' ', '  ');
-  return [
-    text,
-    doubleSpaced,
-  ];
-}
 
 /**
  * @summary - find the firstTitleText within the HTML
@@ -177,15 +173,12 @@ const scrapeArticleHtml = (html, params) => {
   console.log('\nfirstEl', firstEl, '\n');
   
   const relevantInfo = getRelevantInfoFromEl($, firstEl);
-  console.log('\nrelevantInfo', relevantInfo, '\n');
   
   const { classes = '' } = relevantInfo;
 
   const sameClassEls = findSameClassEls($, elType, classes);
-  console.log('sameClassEls', sameClassEls);
   
   const textList = trimSimilarElList($, sameClassEls, firstTitleHtmlText, numOfTitles);
-  console.log('textList', textList);
   
   const textListWithoutIncrements = trimIncrementsFromText(textList);
   console.log('textListWithoutIncrements', textListWithoutIncrements);

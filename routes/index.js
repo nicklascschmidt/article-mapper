@@ -1,4 +1,4 @@
 module.exports = app => {
-  require('./scrape')(app);
+  require('./scrape-routes')(app);
   require('./client-apis')(app);
 }

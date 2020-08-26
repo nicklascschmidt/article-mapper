@@ -2,8 +2,8 @@ import * as T from '../actions/actionTypes';
 import { sampleReducerTitles } from '../../pages/SearchTitles/SearchTitlesForm/sampleForm.data';
 
 const initialState = {
-  // titleStrings: [],
-  titleStrings: sampleReducerTitles, // for testing
+  titleStrings: [],
+  // titleStrings: sampleReducerTitles, // for testing
 };
 
 export default (state = initialState, action) => {

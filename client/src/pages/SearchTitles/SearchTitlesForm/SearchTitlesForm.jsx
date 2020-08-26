@@ -70,9 +70,9 @@ class SearchTitlesForm extends Component {
       const titles = _.get(response, 'data.titles', []);
 
       // const titles = sampleTitlesResponse; // for testing
-      
+
       overwriteTitles(titles);
-      
+
       history.push('/confirm');
     } catch (error) {
       console.log(error);
@@ -81,26 +81,32 @@ class SearchTitlesForm extends Component {
 
   getScrapedSiteData = () => {
     const { url, firstTitleText, elType, numOfTitles } = this.state;
-    const encodedUrl = encodeURIComponent(url);
-    return axios.get(`/scrape/${encodedUrl}/${firstTitleText}/${elType}/${numOfTitles}`)
+    const params = { url, firstTitleText, elType, numOfTitles };
+    return axios.get(`/scrape`, { params });
   }
 
+  displayPresetDropdown = () => (
+    <>
+      <label htmlFor='inputPreset'>Preset:</label>
+      <select
+        id='inputPreset'
+        name='preset'
+        value={this.state.preset}
+        onChange={this.handleChange}
+      >
+        {sampleData.map((item, idx) => {
+          return <option key={`inputPreset-dropdown-option-${idx}`} value={idx}>{item.name}</option>;
+        })}
+      </select>
+    </>
+  )
+
   render() {
-    const { preset } = this.state;
-    
+    const { url, numOfTitles, firstTitleText } = this.state;
+
     return (
       <StyledForm onSubmit={this.handleSubmit}>
-        <label htmlFor='inputPreset'>Preset:</label>
-        <select
-          id='inputPreset'
-          name='preset'
-          value={preset}
-          onChange={this.handleChange}
-        >
-          {sampleData.map((item, idx) => {
-            return <option key={`inputPreset-dropdown-option-${idx}`} value={idx}>{ item.name }</option>;
-          })}
-        </select>
+        {process.env.NODE_ENV === 'development' && this.displayPresetDropdown()}
 
         {formElementsData.map((item, idx) => {
           const { name, labelText } = item;

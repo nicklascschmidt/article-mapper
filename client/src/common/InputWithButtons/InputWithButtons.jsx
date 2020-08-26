@@ -52,7 +52,7 @@ class InputWithButtons extends Component {
       noCancel = false,
       noSubmit = false,
       // LabelInputPair props
-      title, name, value, labelText, onChange, customStyle, type,
+      title, name, value, labelText, onChange, type,
       noColon = false,
       noLabel = false,
     } = this.props;

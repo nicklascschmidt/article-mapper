@@ -6,11 +6,11 @@ export default [
   },
   {
     name: 'numOfTitles',
-    labelText: 'Number of Titles',
+    labelText: 'Number of Locations',
   },
   {
     name: 'firstTitleText',
-    labelText: 'First Title Text',
+    labelText: 'First Location Name',
   },
   {
     name: 'elType',

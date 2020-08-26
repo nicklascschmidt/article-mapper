@@ -8,6 +8,9 @@ import { overwriteOpenMarkerId } from '../../../../redux/actions/index';
 /**
  * TODO: add locationData fields to marker
  * formatted_address, lat, lng, name, place_id, types, userSearchTerm,
+ * add icons for types?
+ * add photos using photo.photo_reference?
+ *      - need to add Google Place Photos - https://developers.google.com/places/web-service/photos?hl=en_US
  */
 class MapMarker extends Component {
   constructor(props) {
@@ -41,14 +44,15 @@ class MapMarker extends Component {
   render() {
     const { location } = this.props;
     const {
-      _id, formatted_address, lat, lng, name, place_id,
-      types, userSearchTerm,
+      _id, formatted_address, lat, lng, name,
     } = location;
 
     return (
       <Marker ref={this.setMarkerRef} position={[lat, lng]}>
         <Popup locationId={_id}>
-          {userSearchTerm} <br /> {formatted_address}
+          <div>{ name }</div>
+          <hr />
+          <div>{ formatted_address }</div>
         </Popup>
       </Marker>
     );
