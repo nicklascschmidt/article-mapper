@@ -31,5 +31,8 @@
     "nodemon": "^2.0.4",
     "path": "^0.12.7"
   },
-  "heroku-run-build-script": true
+  "heroku-run-build-script": true,
+  "engines": {
+    "yarn": "1.15.2"
+  }
 }
