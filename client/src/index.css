@@ -69,6 +69,6 @@ button:hover {
   opacity: .9;
 }
 
-input[type='text']:focus {
+input:focus {
   outline-color: var(--color-accent);
 }

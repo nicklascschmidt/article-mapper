@@ -2,8 +2,7 @@ import * as T from '../actions/actionTypes';
 import { sampleReducerTitles } from '../../pages/SearchTitles/SearchTitlesForm/sampleForm.data';
 
 const initialState = {
-  titleStrings: [],
-  // titleStrings: sampleReducerTitles, // for testing
+  titleStrings: (process.env.NODE_ENV === 'development' ? sampleReducerTitles : []),
 };
 
 export default (state = initialState, action) => {

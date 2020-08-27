@@ -43,8 +43,10 @@ class SearchTitlesForm extends Component {
   }
 
   componentDidMount() {
-    const { preset } = this.state;
-    this.setState({ ..._.omit(sampleData[preset], 'name') });
+    if (process.env.NODE_ENV === 'development') {
+      const { preset } = this.state;
+      this.setState({ ..._.omit(sampleData[preset], 'name') });
+    }
   }
 
   handleChange = (e) => {
@@ -67,9 +69,9 @@ class SearchTitlesForm extends Component {
 
     try {
       const response = await this.getScrapedSiteData();
-      const titles = _.get(response, 'data.titles', []);
-
-      // const titles = sampleTitlesResponse; // for testing
+      const titles = (process.env.NODE_ENV === 'development'
+        ? sampleTitlesResponse
+        : _.get(response, 'data.titles', []));
 
       overwriteTitles(titles);
 
@@ -102,8 +104,6 @@ class SearchTitlesForm extends Component {
   )
 
   render() {
-    const { url, numOfTitles, firstTitleText } = this.state;
-
     return (
       <StyledForm onSubmit={this.handleSubmit}>
         {process.env.NODE_ENV === 'development' && this.displayPresetDropdown()}
