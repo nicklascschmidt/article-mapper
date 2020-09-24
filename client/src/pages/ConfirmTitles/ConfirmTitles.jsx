@@ -24,7 +24,7 @@ class ConfirmTitles extends Component {
         <FormContainer>
           <Card
             headerText='Confirm Locations'
-            descriptionText='Double check all below items are locations. Feel free to edit, remove, or add as needed.'
+            descriptionText='Double check all below items are locations. Feel free to edit, remove, or add items as needed.'
           >
             <ConfirmTitlesForm />
           </Card>

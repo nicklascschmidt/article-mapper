@@ -4,7 +4,6 @@ export const sampleReducerTitles = [
   "1256 page st sf",
   "ansel adams gallery",
   // "streettaco sf",
-  // "183 eureka st sf",
   // "aburaya oakland",
   // "san francisco botanical garden",
 ];
@@ -27,14 +26,14 @@ export const sampleTitlesResponse = [
   "Seaglass Restaurant at Inn by the Sea"
 ];
 
-export default [
+export const sampleFormInputs = [
   {
-    name: 'Chicago Chinese',
-    url: 'https://chicago.eater.com/maps/best-chinese-restaurants-in-chicago',
-    firstTitleText: '1. Chef Ping',
-    generalLocation: 'chicago',
-    elType: 'h1',
-    numOfTitles: '20',
+    name: 'SF Dim Sum',
+    url: 'https://www.timeout.com/san-francisco/restaurants/best-dim-sum-in-san-francisco',
+    firstTitleText: '1. Palette Tea House',
+    generalLocation: 'san francisco',
+    elType: 'h3',
+    numOfTitles: '11',
   },
   {
     name: 'Yosemite Hikes',
@@ -52,6 +51,9 @@ export default [
     elType: 'h2',
     numOfTitles: '25',
   },
+];
+
+export const sampleAllFormInputs = sampleFormInputs.concat([
   {
     name: 'Maine',
     url: 'https://www.thecrazytourist.com/15-best-things-to-do-in-cape-elizabeth-maine/',
@@ -76,4 +78,12 @@ export default [
     elType: 'h2',
     numOfTitles: '12',
   },
-];
+  {
+    name: 'Chicago Chinese',
+    url: 'https://chicago.eater.com/maps/best-chinese-restaurants-in-chicago',
+    firstTitleText: '1. Chef Ping',
+    generalLocation: 'chicago',
+    elType: 'h1',
+    numOfTitles: '20',
+  },
+]);

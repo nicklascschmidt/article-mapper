@@ -5,9 +5,12 @@ import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
-import sampleData, { sampleTitlesResponse } from './sampleForm.data';
+import {
+  // sampleTitlesResponse,
+  sampleFormInputs } from './sampleForm.data';
 import formElementsData from './SearchTitlesForm.data';
 import LabelInputPair from '../../../common/LabelInputPair/LabelInputPair.jsx';
+import Button from '../../../common/Button/Button.jsx';
 
 import { overwriteTitles, overwriteGeneralLocation } from '../../../redux/actions/index';
 
@@ -18,10 +21,15 @@ const StyledForm = styled.form`
     width: 100%;
     box-sizing: border-box;
   }
-  input[type=submit] {
-    margin-left: auto;
-    width: initial;
-  }
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const customButtonStyle = `
+  background-color: var(--color-3);
 `;
 
 class SearchTitlesForm extends Component {
@@ -29,7 +37,6 @@ class SearchTitlesForm extends Component {
     super(props);
 
     this.state = {
-      preset: 0,
       url: '',
       numOfTitles: '',
       firstTitleText: '',
@@ -38,20 +45,17 @@ class SearchTitlesForm extends Component {
     };
   }
 
-  componentDidMount() {
-    if (process.env.NODE_ENV === 'development') {
-      const { preset } = this.state;
-      this.setState({ ..._.omit(sampleData[preset], 'name') });
-    }
-  }
-
   handleChange = (e) => {
     const { name, value } = e.target;
     this.setState({ [name]: value });
+  }
 
-    if (name === 'preset') {
-      this.setState({ ..._.omit(sampleData[parseInt(value)], 'name') });
-    }
+  /** @summary - populates form fields with one of the 3 samples */
+  handlePopulateSample = (e) => {
+    const formInputs = sampleFormInputs[Math.floor(Math.random() * 3)];
+    this.setState({
+      ..._.omit(formInputs, 'name')
+    });
   }
 
   /**
@@ -89,26 +93,9 @@ class SearchTitlesForm extends Component {
     return axios.get(`/scrape`, { params });
   }
 
-  displayPresetDropdown = () => (
-    <>
-      <label htmlFor='inputPreset'>Preset:</label>
-      <select
-        id='inputPreset'
-        name='preset'
-        value={this.state.preset}
-        onChange={this.handleChange}
-      >
-        {sampleData.map((item, idx) => {
-          return <option key={`inputPreset-dropdown-option-${idx}`} value={idx}>{item.name}</option>;
-        })}
-      </select>
-    </>
-  )
-
   render() {
     return (
       <StyledForm onSubmit={this.handleSubmit}>
-        {process.env.NODE_ENV === 'development' && this.displayPresetDropdown()}
 
         {formElementsData.map((item, idx) => {
           const { name, labelText } = item;
@@ -123,7 +110,17 @@ class SearchTitlesForm extends Component {
           )
         })}
 
-        <input type='submit' value='Go' />
+        <ButtonContainer>
+          <Button
+            type='button'
+            onClick={this.handlePopulateSample}
+            customStyle={customButtonStyle}
+          >
+            Populate Sample
+          </Button>
+          <Button>Go!</Button>
+        </ButtonContainer>
+
       </StyledForm>
     )
   }

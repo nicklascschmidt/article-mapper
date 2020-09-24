@@ -5,16 +5,13 @@ import styled from 'styled-components';
 import { PlusCircle, Trash2 } from '@styled-icons/feather';
 
 import LabelInputPair from '../../../common/LabelInputPair/LabelInputPair.jsx';
+import Button from '../../../common/Button/Button.jsx';
 
 import { overwriteTitles } from '../../../redux/actions/index';
 
 const StyledForm = styled.form`
   input {
     display: block;
-    
-    &:last-child {
-      margin-left: auto;
-    }
   }
 `;
 
@@ -28,6 +25,12 @@ const LabelInputContainer = styled.div`
 const RemoveButton = styled.button`
   background-color: var(--color-red-remove);
   padding: 4px;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
 `;
 
 const AddButton = styled.button`
@@ -128,7 +131,7 @@ class ConfirmTitlesForm extends Component {
     const { titles } = this.state;
 
     return (
-      <StyledForm>
+      <StyledForm onSubmit={this.handleSubmit}>
         {Object.keys(titles).map((key, idx) => {
           return (
             <LabelInputContainer key={`ConfirmTitlesForm-titleStringInput-${idx}`}>
@@ -147,11 +150,12 @@ class ConfirmTitlesForm extends Component {
           );
         })}
 
-        <AddButton type='button' onClick={(e) => this.handleAddTitleInput(e)}>
-          <PlusCircleIcon size="1rem" title='add' />
-        </AddButton>
-
-        <input type='submit' value='Go' onClick={this.handleSubmit} />
+        <ButtonContainer>
+          <AddButton type='button' onClick={(e) => this.handleAddTitleInput(e)}>
+            <PlusCircleIcon size="1rem" title='add' />
+          </AddButton>
+          <Button>Go!</Button>
+        </ButtonContainer>
       </StyledForm>
     )
   }
