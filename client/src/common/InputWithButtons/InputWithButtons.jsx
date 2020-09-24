@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { CheckCircle, XCircle } from '@styled-icons/feather';
 
 import LabelInputPair from '../LabelInputPair/LabelInputPair.jsx';
 
@@ -14,11 +15,26 @@ const ButtonContainer = styled.div`
   grid-gap: 2px;
 `;
 
-const AcceptButton = styled.button`
+const ConfirmButton = styled.button`
   background-color: var(--color-green-add);
+  padding: 4px;
 `;
-const DeleteButton = styled.button`
+const CancelButton = styled.button`
   background-color: var(--color-red-remove);
+  padding: 4px;
+`;
+
+const iconStyle = `
+  color: var(--color-dark-grey);
+  stroke-width: 2px;
+`;
+
+const CheckCircleIcon = styled(CheckCircle)`
+  ${iconStyle};
+`;
+
+const XCircleIcon = styled(XCircle)`
+  ${iconStyle};
 `;
 
 class InputWithButtons extends Component {
@@ -72,10 +88,14 @@ class InputWithButtons extends Component {
         />
         <ButtonContainer>
           {noSubmit ? null : (
-            <AcceptButton title='submit' type='button' onClick={onSubmit}>√</AcceptButton>
+            <ConfirmButton title='confirm' type='button' onClick={onSubmit}>
+              <CheckCircleIcon size="1rem" />
+            </ConfirmButton>
           )}
           {noCancel ? null : (
-            <DeleteButton title='cancel' type='button' onClick={onCancel}>X</DeleteButton>
+            <CancelButton title='cancel' type='button' onClick={onCancel}>
+              <XCircleIcon size="1rem" />
+            </CancelButton>
           )}
         </ButtonContainer>
       </Container>

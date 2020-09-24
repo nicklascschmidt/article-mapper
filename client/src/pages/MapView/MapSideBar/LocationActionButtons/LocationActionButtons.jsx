@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { PlusCircle, Trash2, Edit } from '@styled-icons/feather';
 
 import { overwriteActiveAction, clearActiveAction } from '../../../../redux/actions/index';
 
@@ -27,6 +28,23 @@ const StyledButton = styled.button`
         break;
     }
   }};
+`;
+
+const iconStyle = `
+  color: var(--color-dark-grey);
+  stroke-width: 2px;
+`;
+
+const TrashIcon = styled(Trash2)`
+  ${iconStyle};
+`;
+
+const PlusCircleIcon = styled(PlusCircle)`
+  ${iconStyle};
+`;
+
+const EditIcon = styled(Edit)`
+  ${iconStyle};
 `;
 
 class LocationActionButtons extends Component {
@@ -60,19 +78,28 @@ class LocationActionButtons extends Component {
           name='add'
           onClick={this.handleClick}
           isInactive={activeAction && activeAction !== 'add'}
-        >+</StyledButton>
+          title='add'
+        >
+          <PlusCircleIcon size="1rem" />
+        </StyledButton>
         <StyledButton
           type='button'
           name='edit'
           onClick={this.handleClick}
           isInactive={activeAction && activeAction !== 'edit'}
-        >∆</StyledButton>
+          title='edit'
+        >
+          <EditIcon size="1rem" />
+        </StyledButton>
         <StyledButton
           type='button'
           name='remove'
           onClick={this.handleClick}
           isInactive={activeAction && activeAction !== 'remove'}
-        >X</StyledButton>
+          title='remove'
+        >
+          <TrashIcon size="1rem" />
+        </StyledButton>
       </Container>
     )
   }
