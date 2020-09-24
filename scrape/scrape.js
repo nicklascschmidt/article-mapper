@@ -21,12 +21,19 @@ const fetchArticleData = ({ url, ...params }) => {
 // });
 
 
-/** Helpful info for scraping:
- * how many elements we're looking for
- * what an incrementer looks like if any (i.e. '1. ', '1)', etc.)
- * what type of element it is
- * if the element has a class or ID
- * what the text is for the first title
+/**
+ * TODO: organize this doc!!!
+ *    - break out helper funcs
+ *    - split up into sections for each step of the process
+ *    - eventually clear out console.logs
+ *    - first check h2, then h3, then h1, h4 - then ask for the element if error
+ * 
+ * Helpful info for scraping:
+  * how many elements we're looking for
+  * what an incrementer looks like if any (i.e. '1. ', '1)', etc.)
+  * what type of element it is
+  * if the element has a class or ID
+  * what the text is for the first title
 */
 
 
@@ -82,6 +89,11 @@ const findSameClassEls = ($, elType, classes) => {
   return $(elType).attr('class', classes);
 }
 
+/** Make sure all whitespace is plain single spaces for comparison */
+const getCleanString = (str) => {
+  return str.toLowerCase().replace(/\s/g, " ");
+}
+
 /**
  * @summary - trim text list to proper size with the correct titles
  * @returns {string[]} - list of titles the same length as numOfTitles
@@ -93,8 +105,16 @@ const getTitleTextList = (elTexts, numOfTitles, firstTitleHtmlText) => {
   return firstTextStartList.slice(0, numOfTitles)
 }
 
+/**
+ * @summary - check if the substr exists within any of the words in the array
+ *          - some chars that look the same aren't, so get a clean, lowercased version of the word
+ */
 const getIndexOfSubstringInArray = (arr, substr) => {
-  return arr.findIndex(item => item.indexOf(substr) > -1)
+  return arr.findIndex(item => {
+    const substrClean = getCleanString(substr);
+    const itemClean = getCleanString(item);
+    return itemClean.indexOf(substrClean) > -1
+  })
 };
 
 const isSubstringInArray = (arr, substr) => {
@@ -123,6 +143,7 @@ const trimSimilarElList = ($, elList, firstTitleHtmlText, numOfTitles) => {
 
 /**
  * @summary - checks if all the titles start w a number, if yes-- it's incrementing
+ * @param {string[]} textList - list of found locations, could include increment within text
 */
 const trimIncrementsFromText = (textList) => {
   const isIncrementing = _.every(textList, (title) => {
@@ -139,7 +160,7 @@ const trimIncrementsFromText = (textList) => {
 /**
  * @summary - removes non-alpha chars (including digits) in the increment word
  *          - some titles have the incrementer attached to the first word (eg. 2.San Francisco)
- * @param {string[]} titles - titles scraped, 
+ * @param {string[]} titles - titles scraped
  */
 const getTitlesWithoutIncrements = (titles) => {
   return titles.map((title) => {
@@ -159,6 +180,7 @@ const getTitlesWithoutIncrements = (titles) => {
 */
 const scrapeArticleHtml = (html, params) => {
   const { firstTitleText, elType, numOfTitles } = params;
+  console.log('scraping w these params: ', params);
   
   const $ = cheerio.load(html);
 
@@ -170,7 +192,7 @@ const scrapeArticleHtml = (html, params) => {
     el: firstEl,
     firstTitleHtmlText = firstTitleText,
   } = grabFirstEl($, firstTitleText, elType );
-  console.log('\nfirstEl', firstEl, '\n');
+  // console.log('\nfirstEl', firstEl, '\n');
   
   const relevantInfo = getRelevantInfoFromEl($, firstEl);
   
@@ -179,6 +201,7 @@ const scrapeArticleHtml = (html, params) => {
   const sameClassEls = findSameClassEls($, elType, classes);
   
   const textList = trimSimilarElList($, sameClassEls, firstTitleHtmlText, numOfTitles);
+  console.log('textList', textList);
   
   const textListWithoutIncrements = trimIncrementsFromText(textList);
   console.log('textListWithoutIncrements', textListWithoutIncrements);
