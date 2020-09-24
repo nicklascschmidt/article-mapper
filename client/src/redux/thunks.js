@@ -45,9 +45,7 @@ const getLocationData = async (titles, generalLocation) => {
 
 const getLocationDataPromises = (titles, generalLocation) => {
   return titles.map(async (title, idx) => {
-    return fetchLocationData(title, generalLocation,
-      // { padding: [40, 40] }
-    );
+    return fetchLocationData(title, generalLocation);
   });
 };
 
