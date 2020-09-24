@@ -21,7 +21,7 @@ class MapSideBar extends Component {
   render() {
     return (
       <Container>
-        <BackButton toPath='/confirm' titleText='Back to Confirm Page' />
+        <BackButton toPath='/search' titleText='Back to Search Page' />
 
         <LocationsDisplay />
 
