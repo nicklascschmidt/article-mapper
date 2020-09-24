@@ -2,18 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
+import { PlusCircle, Trash2 } from '@styled-icons/feather';
 
 import LabelInputPair from '../../../common/LabelInputPair/LabelInputPair.jsx';
 
 import { overwriteTitles } from '../../../redux/actions/index';
 
 const StyledForm = styled.form`
-  padding: 1rem;
-  border: 1px solid black;
-  border-radius: .5rem;
-  width: 300px;
-  margin: auto;
-
   input {
     display: block;
     
@@ -24,9 +19,33 @@ const StyledForm = styled.form`
 `;
 
 const LabelInputContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 1rem;
+  display: grid;
+  grid-template-columns: 1fr min-content;
+  grid-gap: .5rem;
+  margin-bottom: .5rem;
+`;
+
+const RemoveButton = styled.button`
+  background-color: var(--color-red-remove);
+  padding: 4px;
+`;
+
+const AddButton = styled.button`
+  background-color: var(--color-green-add);
+  padding: 4px;
+`;
+
+const iconStyle = `
+  color: var(--color-dark-grey);
+  stroke-width: 2px;
+`;
+
+const TrashIcon = styled(Trash2)`
+  ${iconStyle};
+`;
+
+const PlusCircleIcon = styled(PlusCircle)`
+  ${iconStyle};
 `;
 
 class ConfirmTitlesForm extends Component {
@@ -80,15 +99,19 @@ class ConfirmTitlesForm extends Component {
   /**
    * @summary - maps title obj into array of titles
    *          - filters out empty strings
+   *          - adds generalLocation to the search term for regional specificity
    *          - update reducer titles
    */
   submitTitlesToRedux = () => {
-    const { overwriteTitles } = this.props;
+    const { overwriteTitles, generalLocation } = this.props;
     const { titles } = this.state;
 
     const newTitles = Object.keys(titles)
       .map((key, idx) => titles[key])
       .filter(title => title && title)
+      .map(title => (generalLocation
+        ? `${title} ${generalLocation}`
+        : title));
     
     overwriteTitles(newTitles);
   }
@@ -121,14 +144,18 @@ class ConfirmTitlesForm extends Component {
                 noColon
                 noLabel
               />
-              <button type='button' onClick={(e) => this.handleRemove(e, key)}>X</button>
+              <RemoveButton type='button' onClick={(e) => this.handleRemove(e, key)}>
+                <TrashIcon size="1rem" title='remove' />
+              </RemoveButton>
             </LabelInputContainer>
           );
         })}
 
-        <button type='button' onClick={(e) => this.handleAddTitleInput(e)}>+</button>
+        <AddButton type='button' onClick={(e) => this.handleAddTitleInput(e)}>
+          <PlusCircleIcon size="1rem" title='add' />
+        </AddButton>
 
-        <input type='submit' value='Confirm Locations' onClick={this.handleSubmit} />
+        <input type='submit' value='Go' onClick={this.handleSubmit} />
       </StyledForm>
     )
   }
@@ -136,6 +163,7 @@ class ConfirmTitlesForm extends Component {
 
 const mapStateToProps = state => ({
   titleStrings: state.titles.titleStrings,
+  generalLocation: state.titles.generalLocation,
 });
 
 const mapDispatchToProps = {
