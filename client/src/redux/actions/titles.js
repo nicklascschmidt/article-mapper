@@ -13,3 +13,10 @@ export const overwriteTitles = titles => ({
     titles,
   },
 });
+
+export const overwriteGeneralLocation = generalLocation => ({
+  type: T.OVERWRITE_GENERAL_LOCATION,
+  payload: {
+    generalLocation,
+  },
+});
