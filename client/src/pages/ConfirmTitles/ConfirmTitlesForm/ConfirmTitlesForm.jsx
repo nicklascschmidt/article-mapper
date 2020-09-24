@@ -99,19 +99,15 @@ class ConfirmTitlesForm extends Component {
   /**
    * @summary - maps title obj into array of titles
    *          - filters out empty strings
-   *          - adds generalLocation to the search term for regional specificity
    *          - update reducer titles
    */
   submitTitlesToRedux = () => {
-    const { overwriteTitles, generalLocation } = this.props;
+    const { overwriteTitles } = this.props;
     const { titles } = this.state;
 
     const newTitles = Object.keys(titles)
       .map((key, idx) => titles[key])
-      .filter(title => title && title)
-      .map(title => (generalLocation
-        ? `${title} ${generalLocation}`
-        : title));
+      .filter(title => title && title);
     
     overwriteTitles(newTitles);
   }
@@ -163,7 +159,6 @@ class ConfirmTitlesForm extends Component {
 
 const mapStateToProps = state => ({
   titleStrings: state.titles.titleStrings,
-  generalLocation: state.titles.generalLocation,
 });
 
 const mapDispatchToProps = {
