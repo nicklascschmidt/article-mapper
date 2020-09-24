@@ -13,6 +13,10 @@ export default [
     labelText: 'First Location Name',
   },
   {
+    name: 'generalLocation',
+    labelText: 'General Location',
+  },
+  {
     name: 'elType',
     labelText: 'Element Type (defaults to h2)',
   },

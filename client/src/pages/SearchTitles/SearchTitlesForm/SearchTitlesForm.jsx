@@ -9,19 +9,14 @@ import sampleData, { sampleTitlesResponse } from './sampleForm.data';
 import formElementsData from './SearchTitlesForm.data';
 import LabelInputPair from '../../../common/LabelInputPair/LabelInputPair.jsx';
 
-import { overwriteTitles } from '../../../redux/actions/index';
+import { overwriteTitles, overwriteGeneralLocation } from '../../../redux/actions/index';
 
 const StyledForm = styled.form`
-  max-width: min-content;
-  padding: 1rem;
-  margin: auto;
-  border: 1px solid black;
-  border-radius: .5rem;
-
   input, select {
     display: block;
     margin-bottom: 1rem;
-    width: 20rem;
+    width: 100%;
+    box-sizing: border-box;
   }
   input[type=submit] {
     margin-left: auto;
@@ -38,6 +33,7 @@ class SearchTitlesForm extends Component {
       url: '',
       numOfTitles: '',
       firstTitleText: '',
+      generalLocation: '',
       elType: 'h2',
     };
   }
@@ -62,16 +58,22 @@ class SearchTitlesForm extends Component {
    * @summary Fetches scraped data from a user-provided URL
    *  - URL is encoded to send to server (else error bc no https etc. passed in URL)
    *  - Update titles reducer, then send user to /confirm page
+   *  - also submit the generalLocation input to titles reducer
    */
   handleSubmit = async (e) => {
     e.preventDefault();
-    const { history, overwriteTitles } = this.props;
+    const { history, overwriteTitles, overwriteGeneralLocation } = this.props;
+    const { generalLocation } = this.state;
+    
+    overwriteGeneralLocation(generalLocation);
 
     try {
       const response = await this.getScrapedSiteData();
-      const titles = (process.env.NODE_ENV === 'development'
-        ? sampleTitlesResponse
-        : _.get(response, 'data.titles', []));
+      /** Use this when testing the /map page to have static data and avoid making /scrape call */
+      // const titles = (process.env.NODE_ENV === 'development'
+      //   ? sampleTitlesResponse
+      //   : _.get(response, 'data.titles', []));
+      const titles = _.get(response, 'data.titles', []);
 
       overwriteTitles(titles);
 
@@ -121,7 +123,7 @@ class SearchTitlesForm extends Component {
           )
         })}
 
-        <input type='submit' value='Scrape' />
+        <input type='submit' value='Go' />
       </StyledForm>
     )
   }
@@ -129,6 +131,7 @@ class SearchTitlesForm extends Component {
 
 const mapDispatchToProps = {
   overwriteTitles,
+  overwriteGeneralLocation,
 };
 
 export default withRouter(connect(
