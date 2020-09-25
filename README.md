@@ -8,14 +8,16 @@ When planning a trip, I always come across articles like [this](https://www.thec
 *MVP complete, continuous development*. The app is live ([here](https://article-mapper.herokuapp.com/map)) and functional, but there is a TODO list of features (see below) and more logic needed to accommodate for variation in article structure.
 
 ## Technologies
-* React (React Router, Styled-Components)
-* Redux (Reselect, Redux-Thunk Middleware)
-* Leaflet (React-Leaflet)
+* React ([React Router](https://reactrouter.com/web/guides/quick-start), [Styled-Components](https://styled-components.com/docs))
+* Redux ([Reselect](https://github.com/reduxjs/reselect), [Redux-Thunk Middleware](https://github.com/reduxjs/redux-thunk))
+* [Leaflet](https://leafletjs.com/reference-1.6.0.html#marker) ([React-Leaflet](https://react-leaflet.js.org/docs/en/components), with [Mapbox](https://docs.mapbox.com/mapbox-gl-js/api/))
+* [React-tooltip-lite](https://www.npmjs.com/package/react-tooltip-lite)
 * NodeJS backend with Express
-* Cheerio
+* [Cheerio](https://cheerio.js.org/)
 * Axios
 * Heroku deployment
-* Lodash
+* [Lodash](https://lodash.com/docs/4.17.15)
+* [Google Places API](https://developers.google.com/places/web-service/search?hl=en_US)
 
 ## TODO
 * Add mobile responsiveness
