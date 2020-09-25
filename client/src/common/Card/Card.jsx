@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 
 const Container = styled.div`
-  border: 1px solid var(--color-6);
+  border: 1px solid var(--color-secondary);
   border-radius: .5rem;
   width: 20rem;
   overflow: hidden;
@@ -15,9 +15,9 @@ const Container = styled.div`
 
 const HeaderContainer = styled.div`
   padding: 1rem;
-  border-bottom: 1px solid var(--color-6);
+  border-bottom: 1px solid var(--color-secondary);
   font-size: 18px;
-  background-color: var(--color-6);
+  background-color: var(--color-secondary);
   color: var(--color-white);
 `;
 

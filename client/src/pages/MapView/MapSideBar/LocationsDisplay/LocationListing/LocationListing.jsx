@@ -18,7 +18,7 @@ const Container = styled.div`
   margin-bottom: 4px;
   border-radius: .5rem;
 
-  background-color: var(--color-primary);
+  background-color: var(--color-secondary);
   color: var(--color-dark-grey);
   box-shadow: 0px 2px 6px rgba(0,0,0,0.2);
 
