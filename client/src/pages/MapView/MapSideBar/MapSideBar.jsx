@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import LocationsDisplay from './LocationsDisplay/LocationsDisplay.jsx';
 import LocationActionButtons from './LocationActionButtons/LocationActionButtons.jsx';
-import BackButton from '../../../common/BackButton/BackButton.jsx';
+import NewSearchButton from '../../../common/NewSearchButton/NewSearchButton.jsx';
 
 
 /**
@@ -21,7 +21,7 @@ class MapSideBar extends Component {
   render() {
     return (
       <Container>
-        <BackButton toPath='/search' titleText='Back to Search Page' />
+        <NewSearchButton />
 
         <LocationsDisplay />
 
