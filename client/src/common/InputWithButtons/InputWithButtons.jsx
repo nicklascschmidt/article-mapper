@@ -69,7 +69,6 @@ class InputWithButtons extends Component {
       noSubmit = false,
       // LabelInputPair props
       title, name, value, labelText, onChange, type,
-      noColon = false,
       noLabel = false,
     } = this.props;
   
@@ -80,9 +79,8 @@ class InputWithButtons extends Component {
           type={type}
           name={name}
           value={value}
-          labelText={labelText}
+          labelComponent={labelText}
           onChange={onChange}
-          noColon={noColon}
           noLabel={noLabel}
           onKeyDown={this.handleKeyDown}
         />

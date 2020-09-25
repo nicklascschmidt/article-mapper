@@ -6,14 +6,14 @@ const StyledInput = styled.input`
 `;
 
 const LabelInputPair = ({
-  type = 'text', name, value, labelText, onChange, customStyle,
-  noColon = false, noLabel = false, onKeyDown = () => {}, inputRef,
+  type = 'text', name, value, labelComponent, onChange, customStyle,
+  noLabel = false, onKeyDown = () => {}, inputRef,
 }) => {
   const id = `${name}Input`;
   return (
     <Fragment>
       {noLabel ? null : (
-        <label htmlFor={id}>{`${labelText}${noColon ? '' : ':'}`}</label>
+        <label htmlFor={id}>{ labelComponent }</label>
       )}
       <StyledInput
         ref={inputRef}

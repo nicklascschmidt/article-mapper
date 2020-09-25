@@ -138,9 +138,8 @@ class ConfirmTitlesForm extends Component {
               <LabelInputPair
                 name={key}
                 value={titles[key]}
-                labelText={`${parseInt(key)+1}. `}
+                labelComponent={`${parseInt(key)+1}. `}
                 onChange={this.handleChange}
-                noColon
                 noLabel
               />
               <RemoveButton type='button' onClick={(e) => this.handleRemove(e, key)}>
