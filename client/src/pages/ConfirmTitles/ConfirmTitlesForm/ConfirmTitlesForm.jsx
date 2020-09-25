@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
-import { PlusCircle, Trash2 } from '@styled-icons/feather';
+import { Plus, Trash2 } from '@styled-icons/feather';
 
 import LabelInputPair from '../../../common/LabelInputPair/LabelInputPair.jsx';
 import Button from '../../../common/Button/Button.jsx';
@@ -47,7 +47,7 @@ const TrashIcon = styled(Trash2)`
   ${iconStyle};
 `;
 
-const PlusCircleIcon = styled(PlusCircle)`
+const PlusIcon = styled(Plus)`
   ${iconStyle};
 `;
 
@@ -151,7 +151,7 @@ class ConfirmTitlesForm extends Component {
 
         <ButtonContainer>
           <AddButton type='button' onClick={(e) => this.handleAddTitleInput(e)}>
-            <PlusCircleIcon size="1rem" title='add' />
+            <PlusIcon size="1rem" title='add' />
           </AddButton>
           <Button>Go!</Button>
         </ButtonContainer>

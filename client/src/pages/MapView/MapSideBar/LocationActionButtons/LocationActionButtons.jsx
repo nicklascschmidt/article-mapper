@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { PlusCircle, Trash2, Edit } from '@styled-icons/feather';
+import { Plus, Trash2, Edit } from '@styled-icons/feather';
 
 import { overwriteActiveAction, clearActiveAction } from '../../../../redux/actions/index';
 
@@ -39,7 +39,7 @@ const TrashIcon = styled(Trash2)`
   ${iconStyle};
 `;
 
-const PlusCircleIcon = styled(PlusCircle)`
+const PlusIcon = styled(Plus)`
   ${iconStyle};
 `;
 
@@ -80,7 +80,7 @@ class LocationActionButtons extends Component {
           isInactive={activeAction && activeAction !== 'add'}
           title='add'
         >
-          <PlusCircleIcon size="1rem" />
+          <PlusIcon size="1rem" />
         </StyledButton>
         <StyledButton
           type='button'
