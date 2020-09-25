@@ -10,6 +10,8 @@ const Container = styled.footer`
   background-color: var(--color-primary);
   color: var(--color-white);
 
+  font-size: smaller;
+
   a {
     color: var(--color-white);
   }

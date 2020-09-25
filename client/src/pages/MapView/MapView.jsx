@@ -8,7 +8,7 @@ import ScrollButton from '../../common/ScrollButton/ScrollButton.jsx';
 export const scrollButtonContainerId = 'scrollButtonContainer';
 
 const Container = styled.div`
-  height: 100%;
+  height: min-content;
 
   @media only screen and (max-width: 768px) {
     .scrollButton {
