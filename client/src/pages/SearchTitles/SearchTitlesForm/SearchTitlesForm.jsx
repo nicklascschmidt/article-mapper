@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
+import { HelpCircle } from '@styled-icons/feather';
+import Tooltip from 'react-tooltip-lite';
 
 import {
   // sampleTitlesResponse,
@@ -29,7 +31,27 @@ const ButtonContainer = styled.div`
 `;
 
 const customButtonStyle = `
-  background-color: var(--color-3);
+  background-color: var(--color-tertiary);
+`;
+
+const LabelContainer = styled.div`
+  display: flex;
+  flex-flow: row nowrap;
+
+  .tooltip {
+    margin-left: .5rem;
+    svg {
+      margin-bottom: 4px;
+    }
+  }
+`;
+
+const TooltipImage = styled.img`
+  width: 50vw;
+`;
+
+const HelpCircleIcon = styled(HelpCircle)`
+  stroke-width: 2px;
 `;
 
 class SearchTitlesForm extends Component {
@@ -98,13 +120,29 @@ class SearchTitlesForm extends Component {
       <StyledForm onSubmit={this.handleSubmit}>
 
         {formElementsData.map((item, idx) => {
-          const { name, labelText } = item;
+          const { name, labelText, tooltipImgSrc } = item;
+          const labelComponent = !tooltipImgSrc ? labelText : (
+            <LabelContainer>
+              <div>{ labelText }</div>
+              <Tooltip
+                className='tooltip'
+                direction='right'
+                useDefaultStyles
+                arrowSize={5}
+                padding='2px'
+                content={<TooltipImage src={tooltipImgSrc} alt='image not found :(' />}
+              >
+                <HelpCircleIcon size=".9rem" />
+              </Tooltip>
+            </LabelContainer>
+          );
+
           return (
             <LabelInputPair
               key={`SearchTitlesForm-LabelInputPair-${idx}`}
               name={name}
               value={this.state[name]}
-              labelText={labelText}
+              labelComponent={labelComponent}
               onChange={this.handleChange}
             />
           )
