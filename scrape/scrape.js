@@ -37,32 +37,99 @@ const fetchArticleData = ({ url, ...params }) => {
 */
 
 
+/** Possible title element types, ordered by most likely */
+const elTypes = [
+  'h2',
+  'h3',
+  'h1',
+  'h4',
+  'h5',
+  'h6',
+];
+
 /**
  * @summary - find the firstTitleText within the HTML
  *          - if the text in the HTML is NOT the firstTitleText, then return that to use later
+ *          - in some cases, the HTML text looks the same but doesn't match, so getCleanString first
  * @returns {object} { el, firstTitleHtmlText }
  *          - el - just the element
  *          - firstTitleHtmlText - the text found in the HTML, which we reference later
 */
-const grabFirstEl = ($, firstTitleText, elType) => {
+const grabFirstEl = ($, firstTitleText) => {
   let el = null;
-  let elText = '';
-  let testCase = '';
+  let els = [];
+
+  /**
+   * Loop through common title element types (ie. elTypes)
+   * Check for exact match-- if yes, break both loops and return that element
+   * Check for string exists match (ie. indexOf())-- if yes, add to els array, then handle below
+   */
+  for (let i=0; i < elTypes.length; i++) {
+    const elType = elTypes[i];
+    console.log('checking elType', elType);
+
+    $(elType).each(function(i, element) {
+      console.log('mapping', getCleanString($(element).text().trim()));
+      const title = getCleanString($(element).text().trim());
+      console.log('vs title', title, 'firstTitleText', getCleanString(firstTitleText));
+
+      /** Break loop if exact match */
+      if (title === getCleanString(firstTitleText)) {
+        console.log('\n\nbreaking the each loop\n\n');
+        el = $(element);
+        return false; // breaks
+      }
+      if (title.indexOf(getCleanString(firstTitleText)) > -1) {
+        els.push($(element));
+      }
+      return true; // continues
+    });
+
+    /** If found exact match, exit loop */
+    if (!!el) {
+      console.log('\n\nbreaking the for loop\n\n');
+      break;
+    }
+
+    console.log('loop end, els', els);
+  }
+
   
-  el = $(`${elType}:contains('${firstTitleText}')`);
-  elText = el.text().trim();
+  /**
+   * If no el found yet, map thru array and look for the shortest text bc we want the closest
+   *    to the string we're searching for (which still includes the string in it)
+   * 
+   * Note: not using reduce bc jquery
+   */
+  if (!el && els.length > 0) {
+    console.log('no el found, checking els array now');
+    let chosen = null;
+    let prevText = '';
 
-  if (firstTitleText === elText) return { el };
+    $(els).each((i, element) => {
+      console.log(1, 'this is the jquery element', $(element));
+      console.log('element nodeName: ', $(element).prop('nodeName'));
 
-  testCase = firstTitleText.replace(' ', '  ');
-  el = $(`${elType}:contains('${testCase}')`);
-  elText = el.text().trim();
+      const text = getCleanString($(element).text().trim());
+      console.log('text', text);
+      if (prevText === '' || text.length < prevText.length) {
+        chosen = element;
+      }
 
-  if (testCase === elText) return { el, firstTitleHtmlText: testCase };
+      prevText = getCleanString($(element).text().trim());
+    });
 
-  console.log('nothing found, el: ', el);
-  
-  return { el };
+    console.log('~~~~ chosen', getCleanString($(chosen).text().trim()));
+
+    el = chosen;
+  }
+
+  /** TODO: If still no el found, throw an error */
+  if (!el) {
+    console.log('ERRROOOOORRRRR');
+  }
+
+  return el;
 }
 
 
@@ -74,13 +141,10 @@ const grabFirstEl = ($, firstTitleText, elType) => {
  * @returns {object} - object with fields relevant to finding other titles
  */
 const getRelevantInfoFromEl = ($, el) => {
-  // const element = $(`${elType}[attr*=${commonAttribute}])`);
-  // const element = $(`${elType}.${commonClass}`);
-  const classes = el.attr('class');
-  console.log('classes', classes);
-
   return {
-    classes,
+    classes: $(el).attr('class'),
+    elType: $(el).prop('nodeName'),
+    titleText: getCleanString($(el).text().trim()),
   };
 }
 
@@ -98,9 +162,9 @@ const getCleanString = (str) => {
  * @summary - trim text list to proper size with the correct titles
  * @returns {string[]} - list of titles the same length as numOfTitles
  */
-const getTitleTextList = (elTexts, numOfTitles, firstTitleHtmlText) => {
-  const firstIndex = getIndexOfSubstringInArray(elTexts, firstTitleHtmlText);
-  const firstTextStartList = elTexts.slice(firstIndex);
+const getTitleTextList = (titleTexts, numOfTitles, firstTitleHtmlText) => {
+  const firstIndex = getIndexOfSubstringInArray(titleTexts, firstTitleHtmlText);
+  const firstTextStartList = titleTexts.slice(firstIndex);
   
   return firstTextStartList.slice(0, numOfTitles)
 }
@@ -127,15 +191,15 @@ const isSubstringInArray = (arr, substr) => {
  *            then assume the list has the correct titles in it
  */
 const trimSimilarElList = ($, elList, firstTitleHtmlText, numOfTitles) => {
-  let elTexts = [];
+  let titleTexts = [];
   elList.each((idx, el) => {
     console.log(idx, $(el).text().trim());
-    elTexts.push($(el).text().trim());
+    titleTexts.push($(el).text().trim());
   });
 
-  if (isSubstringInArray(elTexts, firstTitleHtmlText)) {
+  if (isSubstringInArray(titleTexts, firstTitleHtmlText)) {
     // list is probably correct, now trim to find the right ones
-    return getTitleTextList(elTexts, numOfTitles, firstTitleHtmlText);
+    return getTitleTextList(titleTexts, numOfTitles, firstTitleHtmlText);
   }
 
   return [];
@@ -179,28 +243,29 @@ const getTitlesWithoutIncrements = (titles) => {
  * @returns {string[]} final list of titles
 */
 const scrapeArticleHtml = (html, params) => {
-  const { firstTitleText, elType, numOfTitles } = params;
+  const { firstTitleText, numOfTitles } = params;
   console.log('scraping w these params: ', params);
   
-  const $ = cheerio.load(html);
+  const $ = cheerio.load(html, { decodeEntities: true });
 
   let returnData = {
     titles: [],
   };
 
+  const element = grabFirstEl($, firstTitleText);
+  console.log('\n\n\n\n', element, '\n\n\n\n');
+  
+  const relevantInfo = getRelevantInfoFromEl($, element);
+  
   const {
-    el: firstEl,
-    firstTitleHtmlText = firstTitleText,
-  } = grabFirstEl($, firstTitleText, elType );
-  // console.log('\nfirstEl', firstEl, '\n');
-  
-  const relevantInfo = getRelevantInfoFromEl($, firstEl);
-  
-  const { classes = '' } = relevantInfo;
+    classes = '',
+    elType = '',
+    titleText = '',
+  } = relevantInfo;
 
   const sameClassEls = findSameClassEls($, elType, classes);
   
-  const textList = trimSimilarElList($, sameClassEls, firstTitleHtmlText, numOfTitles);
+  const textList = trimSimilarElList($, sameClassEls, titleText, numOfTitles);
   console.log('textList', textList);
   
   const textListWithoutIncrements = trimIncrementsFromText(textList);
@@ -225,11 +290,5 @@ module.exports = async (params) => {
   $('html *').contents().map((idx, el) => {
     return (this.type === 'text') ? $(this).text()+' ' : '';
   })
-
-  const text = $('h2').filter((idx, el) => {
-    const test = $(this);
-    return $(this).text().trim() === firstTitleText;
-  }).next().text();
-
 
  */
