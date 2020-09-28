@@ -54,6 +54,11 @@ const HelpCircleIcon = styled(HelpCircle)`
   stroke-width: 2px;
 `;
 
+const ErrorMessage = styled.div`
+  color: var(--color-red-remove);
+  margin-top: 1rem;
+`;
+
 class SearchTitlesForm extends Component {
   constructor(props) {
     super(props);
@@ -63,13 +68,16 @@ class SearchTitlesForm extends Component {
       numOfTitles: '',
       firstTitleText: '',
       generalLocation: '',
-      elType: 'h2',
+      error: '',
     };
   }
 
   handleChange = (e) => {
     const { name, value } = e.target;
-    this.setState({ [name]: value });
+    this.setState({
+      [name]: value,
+      error: '',
+    });
   }
 
   /** @summary - populates form fields with one of the 3 samples */
@@ -90,15 +98,16 @@ class SearchTitlesForm extends Component {
     e.preventDefault();
     const { history, overwriteTitles, overwriteGeneralLocation } = this.props;
     const { generalLocation } = this.state;
-    
+
+    const areFieldsComplete = _.every(_.omit(this.state, 'error'), item => item !== '');
+    if (!areFieldsComplete) return this.setState({ error: 'Please fill in all fields' });
+
     overwriteGeneralLocation(generalLocation);
 
     try {
       const response = await this.getScrapedSiteData();
-      /** Use this when testing the /map page to have static data and avoid making /scrape call */
-      // const titles = (process.env.NODE_ENV === 'development'
-      //   ? sampleTitlesResponse
-      //   : _.get(response, 'data.titles', []));
+      if (!response.data) throw new Error('no data in scrape response');
+
       const titles = _.get(response, 'data.titles', []);
 
       overwriteTitles(titles);
@@ -106,60 +115,66 @@ class SearchTitlesForm extends Component {
       history.push('/confirm');
     } catch (error) {
       console.log(error);
+      this.setState({ error: 'Encountered an error. Please double-check inputs and try again.' });
     }
   }
 
   getScrapedSiteData = () => {
-    const { url, firstTitleText, elType, numOfTitles } = this.state;
-    const params = { url, firstTitleText, elType, numOfTitles };
+    const { url, firstTitleText, numOfTitles } = this.state;
+    const params = { url, firstTitleText, numOfTitles };
     return axios.get(`/scrape`, { params });
   }
 
   render() {
+    const { error } = this.state;
     return (
-      <StyledForm onSubmit={this.handleSubmit}>
+      <>
+        <StyledForm onSubmit={this.handleSubmit}>
 
-        {formElementsData.map((item, idx) => {
-          const { name, labelText, tooltipImgSrc } = item;
-          const labelComponent = !tooltipImgSrc ? labelText : (
-            <LabelContainer>
-              <div>{ labelText }</div>
-              <Tooltip
-                className='tooltip'
-                direction='right'
-                useDefaultStyles
-                arrowSize={5}
-                padding='2px'
-                content={<TooltipImage src={tooltipImgSrc} alt='image not found :(' />}
-              >
-                <HelpCircleIcon size=".9rem" />
-              </Tooltip>
-            </LabelContainer>
-          );
+          {formElementsData.map((item, idx) => {
+            const { name, labelText, tooltipImgSrc } = item;
+            const labelComponent = !tooltipImgSrc ? labelText : (
+              <LabelContainer>
+                <div>{ labelText }</div>
+                <Tooltip
+                  className='tooltip'
+                  direction='right'
+                  useDefaultStyles
+                  arrowSize={5}
+                  padding='2px'
+                  content={<TooltipImage src={tooltipImgSrc} alt='image not found :(' />}
+                >
+                  <HelpCircleIcon size=".9rem" />
+                </Tooltip>
+              </LabelContainer>
+            );
 
-          return (
-            <LabelInputPair
-              key={`SearchTitlesForm-LabelInputPair-${idx}`}
-              name={name}
-              value={this.state[name]}
-              labelComponent={labelComponent}
-              onChange={this.handleChange}
-            />
-          )
-        })}
+            return (
+              <LabelInputPair
+                key={`SearchTitlesForm-LabelInputPair-${idx}`}
+                name={name}
+                value={this.state[name]}
+                labelComponent={labelComponent}
+                onChange={this.handleChange}
+              />
+            )
+          })}
 
-        <ButtonContainer>
-          <Button
-            type='button'
-            onClick={this.handlePopulateSample}
-            customStyle={customButtonStyle}
-          >
-            Populate Sample
-          </Button>
-          <Button>Go!</Button>
-        </ButtonContainer>
+          <ButtonContainer>
+            <Button
+              type='button'
+              onClick={this.handlePopulateSample}
+              customStyle={customButtonStyle}
+            >
+              Populate Sample
+            </Button>
+            <Button>Go!</Button>
+          </ButtonContainer>
 
-      </StyledForm>
+        </StyledForm>
+
+        {error && <ErrorMessage>{ error }</ErrorMessage>}
+      </>
     )
   }
 }

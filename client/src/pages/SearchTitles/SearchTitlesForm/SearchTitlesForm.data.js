@@ -20,8 +20,4 @@ export default [
     labelText: 'General Location',
     tooltipImgSrc: 'https://i.imgur.com/626lzfp.png',
   },
-  {
-    name: 'elType',
-    labelText: 'Element Type (defaults to h2)',
-  },
 ];
