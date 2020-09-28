@@ -36,20 +36,20 @@ export const sampleFormInputs = [
     numOfTitles: '11',
   },
   {
-    name: 'Yosemite Hikes',
-    url: 'https://destinations.rei.com/local-tips/best-hikes-in-yosemite-national-park',
-    firstTitleText: 'Lower Yosemite Falls',
-    generalLocation: 'yosemite',
-    elType: 'h3',
-    numOfTitles: '9',
-  },
-  {
     name: 'Bay Area',
     url: 'https://vacationidea.com/california/best-places-to-visit-in-the-bay-area.html',
     firstTitleText: 'Sonoma County',
     generalLocation: 'bay area',
     elType: 'h2',
     numOfTitles: '25',
+  },
+  {
+    name: 'Yosemite Hikes',
+    url: 'https://destinations.rei.com/local-tips/best-hikes-in-yosemite-national-park',
+    firstTitleText: 'Lower Yosemite Falls',
+    generalLocation: 'yosemite',
+    elType: 'h3',
+    numOfTitles: '9',
   },
 ];
 
