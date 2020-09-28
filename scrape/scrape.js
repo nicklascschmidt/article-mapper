@@ -26,7 +26,6 @@ const fetchArticleData = ({ url, ...params }) => {
  *    - break out helper funcs
  *    - split up into sections for each step of the process
  *    - eventually clear out console.logs
- *    - first check h2, then h3, then h1, h4 - then ask for the element if error
  * 
  * Helpful info for scraping:
   * how many elements we're looking for
@@ -66,16 +65,12 @@ const grabFirstEl = ($, firstTitleText) => {
    */
   for (let i=0; i < elTypes.length; i++) {
     const elType = elTypes[i];
-    console.log('checking elType', elType);
 
     $(elType).each(function(i, element) {
-      console.log('mapping', getCleanString($(element).text().trim()));
       const title = getCleanString($(element).text().trim());
-      console.log('vs title', title, 'firstTitleText', getCleanString(firstTitleText));
 
       /** Break loop if exact match */
       if (title === getCleanString(firstTitleText)) {
-        console.log('\n\nbreaking the each loop\n\n');
         el = $(element);
         return false; // breaks
       }
@@ -86,12 +81,7 @@ const grabFirstEl = ($, firstTitleText) => {
     });
 
     /** If found exact match, exit loop */
-    if (!!el) {
-      console.log('\n\nbreaking the for loop\n\n');
-      break;
-    }
-
-    console.log('loop end, els', els);
+    if (!!el) break;
   }
 
   
@@ -102,32 +92,22 @@ const grabFirstEl = ($, firstTitleText) => {
    * Note: not using reduce bc jquery
    */
   if (!el && els.length > 0) {
-    console.log('no el found, checking els array now');
     let chosen = null;
     let prevText = '';
 
     $(els).each((i, element) => {
-      console.log(1, 'this is the jquery element', $(element));
-      console.log('element nodeName: ', $(element).prop('nodeName'));
-
       const text = getCleanString($(element).text().trim());
-      console.log('text', text);
       if (prevText === '' || text.length < prevText.length) {
         chosen = element;
       }
-
       prevText = getCleanString($(element).text().trim());
     });
-
-    console.log('~~~~ chosen', getCleanString($(chosen).text().trim()));
 
     el = chosen;
   }
 
   /** TODO: If still no el found, throw an error */
-  if (!el) {
-    console.log('ERRROOOOORRRRR');
-  }
+  if (!el) return false;
 
   return el;
 }
