@@ -7,6 +7,12 @@ When planning a trip, I always come across articles like [this](https://www.thec
 ## Status
 *MVP complete, continuous development*. The app is live ([here](https://article-mapper.herokuapp.com/map)) and functional, but there is a TODO list of features (see below) and more logic needed to accommodate for variation in article structure.
 
+## How To Use
+When you have an article with locations that you'd like to see mapped out, navigate to the [Article Mapper live site](https://article-mapper.herokuapp.com/). The UI flow is simple and explained on site, but for clarity...
+* Search Page-- user fills in the form with simple information from the article to help the app extract the location data from the article.
+* Confirm Page-- user confirms that the extracted locations are the correct locations. Sometimes excess non-location oriented text is found (i.e. "Explore Yosemite"), in which case that excess text ("Explore") should be removed from the search.
+* Map Page-- user interacts with map and clicks into location markers, and can edit, add, or remove locations as needed. User can also start a new search with a click of a button.
+
 ## Technologies
 * React ([React Router](https://reactrouter.com/web/guides/quick-start), [Styled-Components](https://styled-components.com/docs))
 * Redux ([Reselect](https://github.com/reduxjs/reselect), [Redux-Thunk Middleware](https://github.com/reduxjs/redux-thunk))
@@ -18,15 +24,19 @@ When planning a trip, I always come across articles like [this](https://www.thec
 * Heroku deployment
 * [Lodash](https://lodash.com/docs/4.17.15)
 * [Google Places API](https://developers.google.com/places/web-service/search?hl=en_US)
+* [Feather Icons](https://feathericons.com/)
 
 ## TODO
-* Add mobile responsiveness
+* Add more detail into the map popups (eg. pics, location summary, etc.) - see [G Places Details](https://developers.google.com/places/web-service/details)
 * Add UI flow for confirming a location with multiple search results
 * Improve scrape location detecting with NLP
     * Use location data to add to search `title` or for `locationbias`
 * Add `locationbias` param for Google Places API call (see [here](https://developers.google.com/places/web-service/search?hl=en_US))
     * Search near coordinates of `determinedLocations` - get min/max
 * Add loading screen when fetching location data in MapView
+* Add Recent searches dropdown (if in localstorage)
+    * Only show if localstorage recent searches exist
+    * Add save button on Map view page (?)
 
 ## License
 MIT © Nicklas Chen Schmidt
