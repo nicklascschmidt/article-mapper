@@ -8,9 +8,8 @@ import ScrollButton from '../../common/ScrollButton/ScrollButton.jsx';
 export const scrollButtonContainerId = 'scrollButtonContainer';
 
 const Container = styled.div`
-  height: min-content;
-
   @media only screen and (max-width: 768px) {
+    height: min-content;
     .scrollButton {
       z-index: 1000;
       position: fixed;
@@ -20,11 +19,12 @@ const Container = styled.div`
   }
 
   @media only screen and (min-width: 768px) {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    height: 100%;
     .scrollButton {
       display: none;
     }
-    display: grid;
-    grid-template-columns: 300px 1fr;
   }
 `;
 
