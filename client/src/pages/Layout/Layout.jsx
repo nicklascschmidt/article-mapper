@@ -7,6 +7,13 @@ import Routes from '../Routes/Routes.jsx';
 
 const Container = styled.div`
   height: 100vh;
+  background-image: url('BayArea_Background.png');
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: top;
+  background-repeat: no-repeat;
+  background-color: lightgrey;
+  background-blend-mode: overlay;
 
   header {
     height: 6vh;
@@ -23,7 +30,7 @@ const Container = styled.div`
 class Layout extends Component {
   render() {
     return (
-      <Container>
+      <Container data-testid='layout-container'>
         <Header />
         <main id='scrollButtonContainer'>
           <Routes />
