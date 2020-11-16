@@ -1,35 +1,43 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { Switch, Route } from 'react-router-dom';
 
-import SearchTitles from '../SearchTitles/SearchTitles.jsx';
-import ConfirmTitles from '../ConfirmTitles/ConfirmTitles.jsx';
-import MapView from '../MapView/MapView.jsx';
-import RerouteWrapper from './RerouteWrapper.jsx';
+import RerouteWrapper from './RerouteWrapper';
+import Loading from '../Alt/Loading';
+import ErrorBoundary from '../Alt/ErrorBoundary';
+
+// Lazy load each page. To test, return a Promise w setTimeout
+const LazySearchTitles = lazy(() => import('../SearchTitles/SearchTitles'));
+const LazyConfirmTitles = lazy(() => import('../ConfirmTitles/ConfirmTitles'));
+const LazyMapView = lazy(() => import('../MapView/MapView'));
 
 const Routes = () => {
   return (
-    <Switch>
-      <Route path='/map'>
-        <RerouteWrapper>
-          <MapView />
-        </RerouteWrapper>
-      </Route>
+    <ErrorBoundary>
+      <Suspense fallback={Loading}>
+        <Switch>
+          <Route path='/map'>
+            <RerouteWrapper>
+              <LazyMapView />
+            </RerouteWrapper>
+          </Route>
 
-      <Route path='/confirm'>
-        <RerouteWrapper>
-          <ConfirmTitles />
-        </RerouteWrapper>
-      </Route>
+          <Route path='/confirm'>
+            <RerouteWrapper>
+              <LazyConfirmTitles />
+            </RerouteWrapper>
+          </Route>
 
-      <Route path='/search'>
-        <SearchTitles />
-      </Route>
+          <Route path='/search'>
+            <LazySearchTitles />
+          </Route>
 
-      {/* This will fallback */}
-      <Route path='/'>
-        <SearchTitles />
-      </Route>
-    </Switch>
+          {/* This will fallback */}
+          <Route path='/'>
+            <LazySearchTitles />
+          </Route>
+        </Switch>
+      </Suspense>
+    </ErrorBoundary>
   );
 }
 
