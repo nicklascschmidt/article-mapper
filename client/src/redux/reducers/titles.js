@@ -1,8 +1,6 @@
 import * as T from '../actions/actionTypes';
-import { sampleReducerTitles } from '../../pages/SearchTitles/SearchTitlesForm/sampleForm.data';
 
 const initialState = {
-  // titleStrings: (process.env.NODE_ENV === 'development' ? sampleReducerTitles : []),
   titleStrings: [],
   generalLocation: '',
 };
