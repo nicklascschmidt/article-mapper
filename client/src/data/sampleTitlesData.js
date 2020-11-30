@@ -1,5 +1,3 @@
-
-
 export default [
   'Palette Tea House',
   'Good Luck Dim Sum',
