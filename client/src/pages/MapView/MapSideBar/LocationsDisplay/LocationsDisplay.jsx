@@ -1,3 +1,4 @@
+import isEmpty from 'lodash/isEmpty';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -5,6 +6,7 @@ import styled from 'styled-components';
 
 import { determinedLocationsSelector, nextIdSelector } from '../../../../redux/selectors';
 
+import Loading from '../../../Alt/Loading.jsx';
 import LocationListing from './LocationListing/LocationListing.jsx';
 
 const Container = styled.div`
@@ -35,11 +37,14 @@ class ConfirmTitlesForm extends Component {
   }
 
   render() {
-    const { activeAction } = this.props;
+    const { activeAction, determinedLocations } = this.props;
 
     return (
       <Container>
-        { this.displayLocationListings() }
+        {isEmpty(determinedLocations)
+          ? <Loading />
+          : this.displayLocationListings()}
+
         {activeAction === 'add' && this.displayAddNewLocation()}
       </Container>
     )

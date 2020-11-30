@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Loader } from '@styled-icons/feather';
 
@@ -19,8 +19,12 @@ const StyledLoader = styled(Loader)`
   }
 `;
 
-export default (
-  <Container>
-    <StyledLoader size='4rem' />
-  </Container>
-);
+export default class Loading extends Component {
+  render() {
+    return (
+      <Container>
+        <StyledLoader size='4rem' />
+      </Container>
+    );
+  }
+}
