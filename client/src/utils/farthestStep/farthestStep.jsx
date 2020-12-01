@@ -5,16 +5,6 @@ const steps = [
   '/map',
 ];
 
-// switch (step) {
-//   case null:
-//   case 'welcome':
-//   case 'search':
-//   case 'confirm':
-//   case 'map':
-//   default:
-//     return null;
-// }
-
 export const getWelcomeMessage = (step) => {
   switch (step) {
     case null:
@@ -28,7 +18,7 @@ export const getCustomMessage = (path) => {
   switch (path) {
     case null:
       return "Looks like this is your first time here. No worries if you don't have an article to use, just click the `Populate Sample` button on the next page.";
-    case '/welcome':
+    case '/':
       return "Looks like you didn't search anything last time you were here. If you don't have an article to use, just click the `Populate Sample` button on the next page.";
     case '/search':
     case '/confirm':
