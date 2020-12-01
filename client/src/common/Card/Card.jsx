@@ -31,14 +31,16 @@ const ContentContainer = styled.div`
 `;
 
 const Card = (props) => {
-  const { headerText, customStyle = '', descriptionText, children } = props;
+  const { headerText, customStyle = '', descriptionText, noDescription = false, children } = props;
 
   return (
     <Container customStyle={customStyle}>
       <HeaderContainer>
         { headerText }
-        <hr />
-        <DescriptionContainer>{ descriptionText }</DescriptionContainer>
+        {!noDescription && (<>
+          <hr />
+          <DescriptionContainer>{ descriptionText }</DescriptionContainer>
+        </>)}
       </HeaderContainer>
       <ContentContainer>
         { children }
