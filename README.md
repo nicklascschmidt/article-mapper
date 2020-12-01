@@ -33,10 +33,14 @@ When you have an article with locations that you'd like to see mapped out, navig
     * Use location data to add to search `title` or for `locationbias`
 * Add `locationbias` param for Google Places API call (see [here](https://developers.google.com/places/web-service/search?hl=en_US))
     * Search near coordinates of `determinedLocations` - get min/max
-* Add loading screen when fetching location data in MapView
 * Add Recent searches dropdown (if in localstorage)
     * Only show if localstorage recent searches exist
     * Add save button on Map view page (?)
+    * Maybe add a DB for this, users, etc.
+
+## Recently completed TODOs
+* Add loading screen when fetching location data in MapView
+* Added Welcome page and logic to show custom messages based on user's previous site exp
 
 ## License
 MIT © Nicklas Chen Schmidt
