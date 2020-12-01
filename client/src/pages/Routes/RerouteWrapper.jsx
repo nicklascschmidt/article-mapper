@@ -5,7 +5,7 @@ import { Redirect } from 'react-router-dom';
 const RerouteWrapper = (props) => {
   const { titles, children } = props;
 
-  if (titles.length === 0) return <Redirect to='/search' />;;
+  if (titles.length === 0) return <Redirect to='/' />;;
   return children;
 }
 

@@ -1,6 +1,7 @@
 import React, { Suspense, lazy } from 'react';
 import { Switch, Route } from 'react-router-dom';
 
+import Welcome from '../Welcome/Welcome';
 import RerouteWrapper from './RerouteWrapper';
 import Loading from '../Alt/Loading';
 import ErrorBoundary from '../Alt/ErrorBoundary';
@@ -31,9 +32,9 @@ const Routes = () => {
             <LazySearchTitles />
           </Route>
 
-          {/* This will fallback */}
+          {/* This path will fallback */}
           <Route path='/'>
-            <LazySearchTitles />
+            <Welcome />
           </Route>
         </Switch>
       </Suspense>
