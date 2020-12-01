@@ -99,6 +99,7 @@ class SearchTitlesForm extends Component {
     const { history, overwriteTitles, overwriteGeneralLocation } = this.props;
     const { generalLocation } = this.state;
 
+    // first validate form fields
     const areFieldsComplete = _.every(_.omit(this.state, 'error'), item => item !== '');
     if (!areFieldsComplete) return this.setState({ error: 'Please fill in all fields' });
 
@@ -109,7 +110,6 @@ class SearchTitlesForm extends Component {
       if (!response.data) throw new Error('no data in scrape response');
 
       const titles = _.get(response, 'data.titles', []);
-
       overwriteTitles(titles);
 
       history.push('/confirm');
@@ -129,7 +129,10 @@ class SearchTitlesForm extends Component {
     const { error } = this.state;
     return (
       <>
-        <StyledForm onSubmit={this.handleSubmit}>
+        <StyledForm
+          onSubmit={this.handleSubmit}
+          data-testid='search-titles-form'
+        >
 
           {formElementsData.map((item, idx) => {
             const { name, labelText, tooltipImgSrc } = item;

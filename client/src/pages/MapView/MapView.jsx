@@ -5,6 +5,8 @@ import MapSideBar from './MapSideBar/MapSideBar.jsx';
 import MapContainer from './MapContainer/MapContainer.jsx';
 import ScrollButton from '../../common/ScrollButton/ScrollButton.jsx';
 
+import { updateFarthestStep } from '../../utils/farthestStep/farthestStep.jsx';
+
 export const scrollButtonContainerId = 'scrollButtonContainer';
 
 const Container = styled.div`
@@ -29,6 +31,10 @@ const Container = styled.div`
 `;
 
 class MapView extends Component {
+  componentWillUnmount() {
+    updateFarthestStep();
+  }
+
   render() {
     return (
       <Container>

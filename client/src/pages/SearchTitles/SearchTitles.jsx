@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import Card from '../../common/Card/Card.jsx';
 import SearchTitlesForm from './SearchTitlesForm/SearchTitlesForm.jsx';
+import { updateFarthestStep } from '../../utils/farthestStep/farthestStep.jsx';
 
 const Container = styled.div`
   padding: 1rem;
@@ -12,6 +13,10 @@ const Container = styled.div`
 `;
 
 class SearchTitles extends Component {
+  componentWillUnmount() {
+    updateFarthestStep();
+  }
+
   render() {
     return (
       <Container>
