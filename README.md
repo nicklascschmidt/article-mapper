@@ -1,8 +1,8 @@
 # Article Mapper
-Web application that allows users to visualize locations listed on a listicle blog post (like [this one](https://www.planetware.com/california/things-to-do-in-yosemite-national-park-us-ca-278.htm)). The app scans an article provided by the user and collects location data from each list item, then displays those locations to the user in a basic interactive map view.
+Utility web application that allows users to see a map view of locations listed in a web article (e.g. “[10 Best Hikes in Yosemite](https://www.twowanderingsoles.com/blog/best-hikes-in-yosemite-national-park)”). The app scans an article provided by the user and collects location data from each list item, then displays those locations to the user in a basic interactive map view.
 
 ## Motivation
-When planning a trip, I always come across articles like [this](https://www.thecrazytourist.com/15-best-things-to-do-in-cape-elizabeth-maine/) (...and [this](https://www.tripping.com/guides/day-hikes-in-big-sur) and also [this](https://travel.usnews.com/rankings/best-places-to-visit-in-oregon/), and so on). Often I would find myself typing each location into Google Maps, switching from tab to tab, forgetting where the previous one was and re-copy/pasting over and over, so I figured it'd be helpful to have an app where you can input an article's URL and see a map view of those locations together.
+When planning a trip, I always come across articles like "[15 Best Things To Do [Here]](https://www.thecrazytourist.com/15-best-things-to-do-in-cape-elizabeth-maine/)" (...or [here](https://www.tripping.com/guides/day-hikes-in-big-sur) or [here](https://travel.usnews.com/rankings/best-places-to-visit-in-oregon/), and so on). Often I would find myself typing each location into Google Maps, switching from tab to tab, forgetting where the previous one was and re-copy/pasting over and over, so I figured it'd be helpful to have an app where you can see a map view of those locations together.
 
 ## Status
 *MVP complete, continuous development*. The app is live ([here](https://article-mapper.herokuapp.com/map)) and functional, but there is a TODO list of features (see below) and more logic needed to accommodate for variation in article structure.
@@ -33,10 +33,10 @@ When you have an article with locations that you'd like to see mapped out, navig
     * Use location data to add to search `title` or for `locationbias`
 * Add `locationbias` param for Google Places API call (see [here](https://developers.google.com/places/web-service/search?hl=en_US))
     * Search near coordinates of `determinedLocations` - get min/max
-* Add Recent searches dropdown (if in localstorage)
+* Implement a localstorage cache and add Recent searches dropdown
     * Only show if localstorage recent searches exist
-    * Add save button on Map view page (?)
-    * Maybe add a DB for this, users, etc.
+    * Add save button on Map view page (perhaps?)
+    * Maybe add a DB for user login, users, etc.
 
 ## Recently completed TODOs
 * Add loading screen when fetching location data in MapView
